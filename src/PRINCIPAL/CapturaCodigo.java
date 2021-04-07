@@ -1,6 +1,7 @@
  package PRINCIPAL;
  
  
+ 
 import CodigoPOJO.CodigoPOJO;
 import INST_MUSICALES.V178;
 import INST_MUSICALES.V561;
@@ -123,8 +124,10 @@ public class CapturaCodigo extends javax.swing.JFrame {
     public CapturaCodigo() {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/recursos/logo.png")).getImage());
-        btnsig.setEnabled(false);  jPanel1.setVisible(false); btnsig.setVisible(false);
-      
+        btnsig.setEnabled(false);
+        jPanel1.setVisible(false);
+        btnsig.setVisible(false);
+
         
 
         textAutoCompleter = new TextAutoCompleter(txt_id, new AutoCompleterCallback() {
@@ -138,7 +141,6 @@ public class CapturaCodigo extends javax.swing.JFrame {
     }
  
     public void verificarnulos(){
- 
         if (        codigo.equals(" ")
                 || codigo2.equals(" ")
                 || nacional.equals(" ")
@@ -165,7 +167,6 @@ public class CapturaCodigo extends javax.swing.JFrame {
         } else {
             existecodigo();
         }
- 
     }
      
     public void destinoventana() {
