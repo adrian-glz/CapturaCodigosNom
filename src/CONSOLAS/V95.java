@@ -92,7 +92,7 @@ public class V95 extends javax.swing.JFrame {
             java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
             st = conexion.createStatement();
             st.executeUpdate("USE noms;");
-            rs = st.executeQuery("select * from celularmeminter order by  elemento ASC");
+            rs = st.executeQuery("select * from AparatoVideojuegoAlmacenamiento order by  elemento ASC");
 
             while (rs.next()) {
                 String elemento = rs.getString("elemento");
@@ -274,7 +274,7 @@ public class V95 extends javax.swing.JFrame {
             java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
             st = conexion.createStatement();
             st.executeUpdate("USE NOMS;");
-            rs = st.executeQuery("SELECT * FROM celularincluye order by  elemento ASC");
+            rs = st.executeQuery("SELECT * FROM AparatoVideojuegoincluye order by  elemento ASC");
 
             while (rs.next()) {
                 modelo.addElement(rs.getString("elemento"));

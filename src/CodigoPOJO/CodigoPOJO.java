@@ -7,6 +7,8 @@ package CodigoPOJO;
 
  
 public class CodigoPOJO {
+    
+    
     private String codigo;
     private String descripcion;
     private String nacional;

@@ -348,11 +348,11 @@ public class VJSOFTWARE extends javax.swing.JFrame {
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel14.setText("GENERO:");
-        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 10, 90, 43));
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 90, 43));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel15.setText("SWITCH/XBOXONE/XBOX360/PS4/PS3");
-        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 10, 330, 40));
+        jLabel15.setText("SWITCH/XBOXONE/XBOX360/PS4/PS3/PS5/XBOX SERIES X");
+        getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 370, 40));
 
         jLabel18.setText(" ");
         getContentPane().add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 370, 250, 30));
@@ -381,8 +381,8 @@ public class VJSOFTWARE extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
-              int result = JOptionPane.showConfirmDialog(null, "seguro que quieres capturar el codigo?", "ATENCION",
-       JOptionPane.YES_NO_OPTION,
+           int result = JOptionPane.showConfirmDialog(null, "seguro que quieres capturar el codigo?", "ATENCION",
+                JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
         if (result == JOptionPane.YES_OPTION) {

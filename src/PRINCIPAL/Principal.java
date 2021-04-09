@@ -35,13 +35,17 @@ public class Principal extends javax.swing.JFrame {
     //TextAutoCompleter textAutoCompleter;
     public Principal() {
         initComponents();
-        TextPrompt proveedor = new TextPrompt("Codigo Proveedor", txtproveedor);
+        TextPrompt codigosounds = new TextPrompt("Codigo Sounds", txtcodigosounds);
+        TextPrompt codigoproveedor = new TextPrompt("Codigo Proveedor o fisico", txtcodigoproveedor);
         TextPrompt codigobarras = new TextPrompt("Codigo de barras", txtcodigobarras);
         TextPrompt descripcion = new TextPrompt("Descripcion", txtdescripcion);
+        
         llenargeneros();
         llenargrupos();
+        llenarproveedor();
         AutoCompleteDecorator.decorate(jcgenero);
         AutoCompleteDecorator.decorate(jcgrupo);
+        AutoCompleteDecorator.decorate(jcproveedor);
         /*  textAutoCompleter = new TextAutoCompleter(txtgenero, new AutoCompleterCallback() {
          @Override
          public void callback(Object o) {
@@ -105,6 +109,27 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
+      public void llenarproveedor() {
+        jcproveedor.removeAllItems();
+
+        try {
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
+
+            rs = st.executeQuery("select * from proveedores order by descripcion asc");
+
+            while (rs.next()) {
+                String elemento = rs.getString("descripcion").trim();
+                jcproveedor.addItem(elemento);
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,7 +140,7 @@ public class Principal extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
-        txtproveedor = new javax.swing.JTextField();
+        txtcodigoproveedor = new javax.swing.JTextField();
         txtcodigobarras = new javax.swing.JTextField();
         txtdescripcion = new javax.swing.JTextField();
         jcgrupo = new javax.swing.JComboBox();
@@ -125,25 +150,30 @@ public class Principal extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         lblproveedor = new javax.swing.JLabel();
         lbldescripcion = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jcproveedor = new javax.swing.JComboBox();
+        jcestatus = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        btnayuda = new javax.swing.JButton();
+        txtcodigosounds = new javax.swing.JTextField();
+        lblcodigosounds = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Captura Codigo Nuevo");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setText(" ");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 340, -1, -1));
 
-        txtproveedor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtproveedor.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                txtproveedorFocusGained(evt);
-            }
-        });
-        txtproveedor.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtcodigoproveedor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtcodigoproveedor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtproveedorKeyTyped(evt);
+                txtcodigoproveedorKeyTyped(evt);
             }
         });
-        getContentPane().add(txtproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 140, 30));
+        getContentPane().add(txtcodigoproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 180, 30));
 
         txtcodigobarras.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtcodigobarras.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -151,7 +181,7 @@ public class Principal extends javax.swing.JFrame {
                 txtcodigobarrasKeyTyped(evt);
             }
         });
-        getContentPane().add(txtcodigobarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 140, 30));
+        getContentPane().add(txtcodigobarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 140, 30));
 
         txtdescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtdescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -159,45 +189,105 @@ public class Principal extends javax.swing.JFrame {
                 txtdescripcionKeyTyped(evt);
             }
         });
-        getContentPane().add(txtdescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 20, 140, 30));
+        getContentPane().add(txtdescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, 140, 30));
 
+        jcgrupo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcgrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jcgrupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 180, 30));
+        getContentPane().add(jcgrupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 180, 30));
 
+        jcgenero.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcgenero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jcgenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 180, 30));
+        getContentPane().add(jcgenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 180, 30));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Grupo");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 65, -1, -1));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 65, -1, -1));
 
+        lblcodigobarras.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblcodigobarras.setForeground(new java.awt.Color(255, 255, 255));
         lblcodigobarras.setText("  ");
-        getContentPane().add(lblcodigobarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 6, 130, -1));
+        getContentPane().add(lblcodigobarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 5, 130, -1));
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Genero");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 65, -1, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 65, -1, -1));
 
+        lblproveedor.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblproveedor.setForeground(new java.awt.Color(255, 255, 255));
         lblproveedor.setText(" ");
-        getContentPane().add(lblproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 6, 140, -1));
+        getContentPane().add(lblproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 5, 180, -1));
 
+        lbldescripcion.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lbldescripcion.setForeground(new java.awt.Color(255, 255, 255));
         lbldescripcion.setText("  ");
-        getContentPane().add(lbldescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 6, 130, -1));
+        getContentPane().add(lbldescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 5, 130, -1));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Proveedor");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 65, -1, -1));
+
+        jcproveedor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jcproveedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(jcproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 80, 180, 30));
+
+        jcestatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jcestatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A", "C", "D" }));
+        getContentPane().add(jcestatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 80, 50, 30));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Estatus");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 60, -1, 20));
+
+        btnayuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/HELP2.png"))); // NOI18N
+        btnayuda.setContentAreaFilled(false);
+        btnayuda.setFocusPainted(false);
+        btnayuda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnayudaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnayuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 60, 50));
+
+        txtcodigosounds.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtcodigosounds.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtcodigosoundsKeyTyped(evt);
+            }
+        });
+        getContentPane().add(txtcodigosounds, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 170, 30));
+
+        lblcodigosounds.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblcodigosounds.setForeground(new java.awt.Color(255, 255, 255));
+        lblcodigosounds.setText(" ");
+        getContentPane().add(lblcodigosounds, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 5, 140, -1));
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, -1, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/azul claro.jpg"))); // NOI18N
+        jLabel6.setText(" ");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 830, 380));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtproveedorFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtproveedorFocusGained
-
-      
-    }//GEN-LAST:event_txtproveedorFocusGained
-
-    private void txtproveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtproveedorKeyTyped
-        if (txtproveedor.getText().length() > 0) {
+    private void txtcodigoproveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigoproveedorKeyTyped
+        if (txtcodigoproveedor.getText().length() > 0) {
             lblproveedor.setText("Proveedor");
         } else {
             lblproveedor.setText("");
         }
-    }//GEN-LAST:event_txtproveedorKeyTyped
+    }//GEN-LAST:event_txtcodigoproveedorKeyTyped
 
     private void txtcodigobarrasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigobarrasKeyTyped
         if (txtcodigobarras.getText().length() > 0) {
@@ -208,12 +298,46 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtcodigobarrasKeyTyped
 
     private void txtdescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdescripcionKeyTyped
-           if (txtdescripcion.getText().length()>0) {
-    lbldescripcion.setText("Descripcion");
-         }   else{
- lbldescripcion.setText("");
-}
+        if (txtdescripcion.getText().length() > 0) {
+            lbldescripcion.setText("Descripcion");
+        } else {
+            lbldescripcion.setText("");
+        }
     }//GEN-LAST:event_txtdescripcionKeyTyped
+
+    private void btnayudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnayudaActionPerformed
+
+        JOptionPane.showMessageDialog(null, "Informacion de estatus:\n"
+                + "A=ACTIVO\n"
+                + "D=DESCATALOGADO\n"
+                + "C=CANCELADO");
+
+
+    }//GEN-LAST:event_btnayudaActionPerformed
+
+    private void txtcodigosoundsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigosoundsKeyTyped
+  if (txtcodigosounds.getText().length() > 0) {
+            lblcodigosounds.setText("Codigo Sounds");
+        } else {
+            lblcodigosounds.setText("");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_txtcodigosoundsKeyTyped
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      ///variables para uso en insert sql
+        String codigosounds =txtcodigosounds.getText();
+        String codigoproveedor =txtcodigoproveedor.getText();
+        String codigobarras =txtcodigobarras.getText();
+        String descripcion =txtdescripcion.getText();
+        String grupo =jcgrupo.getSelectedItem().toString();
+        String genero =jcgenero.getSelectedItem().toString();
+        String proveedor =jcproveedor.getSelectedItem().toString();
+        String estatus =jcestatus.getSelectedItem().toString();
+        
+        
+        
+        System.out.println(">>"+txtcodigosounds.getText()+txtcodigoproveedor.getText()+txtcodigobarras.getText()+txtdescripcion.getText()+jcgrupo.getSelectedItem().toString());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -251,16 +375,25 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnayuda;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JComboBox jcestatus;
     private javax.swing.JComboBox jcgenero;
     private javax.swing.JComboBox jcgrupo;
+    private javax.swing.JComboBox jcproveedor;
     private javax.swing.JLabel lblcodigobarras;
+    private javax.swing.JLabel lblcodigosounds;
     private javax.swing.JLabel lbldescripcion;
     private javax.swing.JLabel lblproveedor;
     private javax.swing.JTextField txtcodigobarras;
+    private javax.swing.JTextField txtcodigoproveedor;
+    private javax.swing.JTextField txtcodigosounds;
     private javax.swing.JTextField txtdescripcion;
-    private javax.swing.JTextField txtproveedor;
     // End of variables declaration//GEN-END:variables
 }
