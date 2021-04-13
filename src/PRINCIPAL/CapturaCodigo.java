@@ -81,6 +81,7 @@ import ACCELECTRONICA.V530;
 import ACCELECTRONICA.V541;
 import ACCELECTRONICA.V542;
 import ACCELECTRONICA.V99;
+import CD.V20;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Color;
@@ -128,8 +129,6 @@ public class CapturaCodigo extends javax.swing.JFrame {
         jPanel1.setVisible(false);
         btnsig.setVisible(false);
 
-        
-
         textAutoCompleter = new TextAutoCompleter(txt_id, new AutoCompleterCallback() {
             @Override
             public void callback(Object o) {
@@ -139,7 +138,7 @@ public class CapturaCodigo extends javax.swing.JFrame {
         });
         PersonaJDBC.cargarCompleter(textAutoCompleter);
     }
- 
+
     public void verificarnulos(){
         if (        codigo.equals(" ")
                 || codigo2.equals(" ")
@@ -176,6 +175,12 @@ public class CapturaCodigo extends javax.swing.JFrame {
         int genero = Integer.parseInt(ge);
         switch (genero) {
 
+            case 20: {
+                this.setVisible(false);
+                V20 V = new V20();
+                V.setVisible(true);
+
+            }
             case 39: {
                 this.setVisible(false);
                 V39 V = new V39();

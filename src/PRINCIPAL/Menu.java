@@ -33,6 +33,7 @@ public class Menu extends javax.swing.JFrame {
         btneliminarcodigo = new javax.swing.JButton();
         btnvisualiza = new javax.swing.JButton();
         btnopcionmultiple1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -106,6 +107,15 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnopcionmultiple1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 370, 280, 50));
+
+        jLabel3.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(51, 0, 51));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("SISTEMA NOMS");
+        jLabel3.setToolTipText("");
+        jLabel3.setFocusable(false);
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 38));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/ta_1.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 480));
@@ -187,5 +197,6 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btnvisualiza;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

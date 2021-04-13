@@ -39,9 +39,11 @@ public class Principal extends javax.swing.JFrame {
         TextPrompt codigoproveedor = new TextPrompt("Codigo Proveedor o fisico", txtcodigoproveedor);
         TextPrompt codigobarras = new TextPrompt("Codigo de barras", txtcodigobarras);
         TextPrompt descripcion = new TextPrompt("Descripcion", txtdescripcion);
+      //  TextPrompt procedencia = new TextPrompt("Procedencia", txtcodigosounds);
         
         llenargeneros();
         llenargrupos();
+        llenarfamilia();
         llenarproveedor();
         AutoCompleteDecorator.decorate(jcgenero);
         AutoCompleteDecorator.decorate(jcgrupo);
@@ -108,6 +110,27 @@ public class Principal extends javax.swing.JFrame {
             return;
         }
     }
+    public void llenarfamilia() {
+      //  jcfamilia.removeAllItems();
+
+        try {
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
+             st.executeUpdate("USE noms;");
+            rs = st.executeQuery("select * from similares order by elemento ASC");
+
+            while (rs.next()) {
+                String elemento = rs.getString("elemento").trim();
+                jcfamilia.addItem(elemento);
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    }
 
       public void llenarproveedor() {
         jcproveedor.removeAllItems();
@@ -159,9 +182,12 @@ public class Principal extends javax.swing.JFrame {
         lblcodigosounds = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        jcprocedencia = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
+        jcfamilia = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Captura Codigo Nuevo");
+        setTitle("Captura codigo nuevo");
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setText(" ");
@@ -200,32 +226,26 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(jcgenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 180, 30));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Grupo");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 65, -1, -1));
 
         lblcodigobarras.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblcodigobarras.setForeground(new java.awt.Color(255, 255, 255));
         lblcodigobarras.setText("  ");
         getContentPane().add(lblcodigobarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 5, 130, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Genero");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 65, -1, -1));
 
         lblproveedor.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblproveedor.setForeground(new java.awt.Color(255, 255, 255));
         lblproveedor.setText(" ");
         getContentPane().add(lblproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 5, 180, -1));
 
         lbldescripcion.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lbldescripcion.setForeground(new java.awt.Color(255, 255, 255));
         lbldescripcion.setText("  ");
         getContentPane().add(lbldescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 5, 130, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Proveedor");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 65, -1, -1));
 
@@ -235,12 +255,11 @@ public class Principal extends javax.swing.JFrame {
 
         jcestatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcestatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A", "C", "D" }));
-        getContentPane().add(jcestatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 80, 50, 30));
+        getContentPane().add(jcestatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 130, 70, 30));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Estatus");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 60, -1, 20));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 115, -1, -1));
 
         btnayuda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/HELP2.png"))); // NOI18N
         btnayuda.setContentAreaFilled(false);
@@ -261,7 +280,6 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(txtcodigosounds, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 170, 30));
 
         lblcodigosounds.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        lblcodigosounds.setForeground(new java.awt.Color(255, 255, 255));
         lblcodigosounds.setText(" ");
         getContentPane().add(lblcodigosounds, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 5, 140, -1));
 
@@ -271,11 +289,23 @@ public class Principal extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 320, -1, -1));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/azul claro.jpg"))); // NOI18N
-        jLabel6.setText(" ");
-        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 830, 380));
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Procedencia");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 115, -1, -1));
+
+        jcprocedencia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jcprocedencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Importado", "Nacional" }));
+        getContentPane().add(jcprocedencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 180, 30));
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel7.setText("Familia");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 115, -1, -1));
+
+        jcfamilia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jcfamilia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--NO APLICA--" }));
+        getContentPane().add(jcfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, 30));
 
         pack();
         setLocationRelativeTo(null);
@@ -383,9 +413,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JComboBox jcestatus;
+    private javax.swing.JComboBox jcfamilia;
     private javax.swing.JComboBox jcgenero;
     private javax.swing.JComboBox jcgrupo;
+    private javax.swing.JComboBox jcprocedencia;
     private javax.swing.JComboBox jcproveedor;
     private javax.swing.JLabel lblcodigobarras;
     private javax.swing.JLabel lblcodigosounds;
