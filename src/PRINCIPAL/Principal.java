@@ -11,11 +11,19 @@ import JDBC.PersonaJDBC;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -33,14 +41,18 @@ public class Principal extends javax.swing.JFrame {
      * Creates new form Principal
      */
     //TextAutoCompleter textAutoCompleter;
+    
+    
     public Principal() {
         initComponents();
-        TextPrompt codigosounds = new TextPrompt("Codigo Sounds", txtcodigosounds);
-        TextPrompt codigoproveedor = new TextPrompt("Codigo Proveedor o fisico", txtcodigoproveedor);
-        TextPrompt codigobarras = new TextPrompt("Codigo de barras", txtcodigobarras);
-        TextPrompt descripcion = new TextPrompt("Descripcion", txtdescripcion);
+        TextPrompt codigosoundst = new TextPrompt("Codigo Sounds", txtcodigosounds);
+        TextPrompt codigoproveedort = new TextPrompt("Codigo Proveedor o fisico", txtcodigoproveedor);
+        TextPrompt codigobarrast = new TextPrompt("Codigo de barras", txtcodigobarras);
+        TextPrompt descripciont = new TextPrompt("Descripcion", txtdescripcion);
       //  TextPrompt procedencia = new TextPrompt("Procedencia", txtcodigosounds);
         
+                
+     
         llenargeneros();
         llenargrupos();
         llenarfamilia();
@@ -48,6 +60,11 @@ public class Principal extends javax.swing.JFrame {
         AutoCompleteDecorator.decorate(jcgenero);
         AutoCompleteDecorator.decorate(jcgrupo);
         AutoCompleteDecorator.decorate(jcproveedor);
+        
+        GregorianCalendar gg = new GregorianCalendar();
+        SimpleDateFormat dd = new SimpleDateFormat("yyyy/MM/dd");
+        String fechadisplay = dd.format(gg.getTime());
+        lblfecha.setText(fechadisplay);   
         /*  textAutoCompleter = new TextAutoCompleter(txtgenero, new AutoCompleterCallback() {
          @Override
          public void callback(Object o) {
@@ -185,6 +202,7 @@ public class Principal extends javax.swing.JFrame {
         jcprocedencia = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
         jcfamilia = new javax.swing.JComboBox();
+        lblfecha = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Captura codigo nuevo");
@@ -289,7 +307,7 @@ public class Principal extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 320, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 380, 60));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Procedencia");
@@ -306,6 +324,9 @@ public class Principal extends javax.swing.JFrame {
         jcfamilia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcfamilia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--NO APLICA--" }));
         getContentPane().add(jcfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, 30));
+
+        lblfecha.setText("  ");
+        getContentPane().add(lblfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 360, 80, 20));
 
         pack();
         setLocationRelativeTo(null);
@@ -336,17 +357,14 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtdescripcionKeyTyped
 
     private void btnayudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnayudaActionPerformed
-
         JOptionPane.showMessageDialog(null, "Informacion de estatus:\n"
                 + "A=ACTIVO\n"
                 + "D=DESCATALOGADO\n"
                 + "C=CANCELADO");
-
-
     }//GEN-LAST:event_btnayudaActionPerformed
 
     private void txtcodigosoundsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigosoundsKeyTyped
-  if (txtcodigosounds.getText().length() > 0) {
+        if (txtcodigosounds.getText().length() > 0) {
             lblcodigosounds.setText("Codigo Sounds");
         } else {
             lblcodigosounds.setText("");
@@ -355,20 +373,99 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
       ///variables para uso en insert sql
-        String codigosounds =txtcodigosounds.getText();
+        System.out.println(">>>"+jcfamilia.getSelectedItem().toString());
+        if (txtcodigosounds.equals(" ")
+                || txtcodigoproveedor.equals(" ")
+                || txtcodigobarras.equals(" ")
+                || txtdescripcion.equals(" ")
+                || jcfamilia.getSelectedItem().toString().equals("--NO APLICA--")) {
+
+            JOptionPane.showMessageDialog(rootPane, "Faltan datos, si aparecen datos en blanco, comunicate con el comprador responsable");
+
+          //  vaciarcampiosvalores();
+        } else {
+          ExisteCodigo();
+        }
+        
+        
+      
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void ExisteCodigo() {//comprobar 
+
+        ////evento para buscar codigo
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://" + "192.168.1.80:55024" + "", "usounds", "madljda");
+            st = conexion.createStatement();
+            
+            rs = st.executeQuery("select codigo, descripcion, grupo, precioventa from codigos where codigo='" + txtcodigosounds.getText() + "' or codigo2='" + txtcodigosounds.getText() + "'");
+            //  System.out.println(">>>"+sucursalglobal);
+
+            boolean friv = rs.next();
+            String s1 = Boolean.toString(friv);
+            try {
+                if (s1.equals("true")) {
+
+                    while (rs.next()) {
+                    }
+                    JOptionPane.showMessageDialog(null, "El codigo ya existe, intente con otro", "Alerta", JOptionPane.WARNING_MESSAGE);
+
+                } else {
+                  //PROCEDEMOS
+                    insertacodigo();
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            }
+        } catch (HeadlessException | NumberFormatException | SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+     
+    }
+    public void insertacodigo() {
+   String codigosounds =txtcodigosounds.getText();
         String codigoproveedor =txtcodigoproveedor.getText();
         String codigobarras =txtcodigobarras.getText();
         String descripcion =txtdescripcion.getText();
         String grupo =jcgrupo.getSelectedItem().toString();
         String genero =jcgenero.getSelectedItem().toString();
         String proveedor =jcproveedor.getSelectedItem().toString();
-        String estatus =jcestatus.getSelectedItem().toString();
-        
-        
-        
-        System.out.println(">>"+txtcodigosounds.getText()+txtcodigoproveedor.getText()+txtcodigobarras.getText()+txtdescripcion.getText()+jcgrupo.getSelectedItem().toString());
-    }//GEN-LAST:event_jButton1ActionPerformed
+        String estatus =jcestatus.getSelectedItem().toString();    
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SS");
+        LocalDateTime date = LocalDateTime.now();
+        //   System.out.println(dtf.format(date));
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://" + "192.168.1.80:55024" + "", "usounds", "madljda");
+            st.executeUpdate("use cml;");
+            Statement st = conexion.createStatement();
 
+            ps = conexion.prepareStatement("insert into codigos  (Codigo, CodigoProv, Estatus, Codigo2, CodigoNuevo, Descripcion,"
+                    + " Artista,UnidadMedida  , Genero , Grupo  , Linea  , Proveedor, Proveedor2 , Nacional , Iva  , ClaveApartado ,"
+                    + " CostoLista  , CostoNetoLista , CostoReposicion, PrecioVenta, FechaAlta , FechaActualizacion , TipoArticulo ,"
+                    + " FechaActExpCosto, DescClienFrec ) "
+                    + "VALUES('" + codigosounds + "',"
+                    + "'" + txtgondola.getText().toUpperCase() + "','" + txtcantidad.getText().toUpperCase() + "','" + date + "');");
+            int n = ps.executeUpdate();
+            System.out.println("¡Los datos han sido guardados exitósamente!" + n);
+            if (n >= 0) {
+                JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente!");
+                System.out.println("¡Los datos han sido guardados exitósamente!" + n);
+                limpiarventanas();
+            }
+        } catch (HeadlessException | SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CapturaInventario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -423,6 +520,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel lblcodigobarras;
     private javax.swing.JLabel lblcodigosounds;
     private javax.swing.JLabel lbldescripcion;
+    private javax.swing.JLabel lblfecha;
     private javax.swing.JLabel lblproveedor;
     private javax.swing.JTextField txtcodigobarras;
     private javax.swing.JTextField txtcodigoproveedor;

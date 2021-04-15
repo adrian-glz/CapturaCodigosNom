@@ -5,6 +5,12 @@
  */
 package CD;
 
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author agonzalez
@@ -14,8 +20,56 @@ public class V20 extends javax.swing.JFrame {
     /**
      * Creates new form V20
      */
+    Statement st;
+    PreparedStatement ps = null;
+    ResultSet rs;
+
     public V20() {
         initComponents();
+        artistagenero();
+        artistagrupo();
+    }
+
+    public void artistagenero() {
+        cbgenero.removeAllItems();
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
+            st = conexion.createStatement();
+            st.executeUpdate("USE NOMS;");
+            rs = st.executeQuery("SELECT * FROM cdgenero order by  elemento asc");
+
+            while (rs.next()) {
+                String elemento = rs.getString("elemento");
+                cbgenero.addItem(elemento);
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    public void artistagrupo() {
+        cbartista.removeAllItems();
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
+            st = conexion.createStatement();
+            st.executeUpdate("USE NOMS;");
+            rs = st.executeQuery("SELECT * FROM cdartista order by  elemento asc");
+
+            while (rs.next()) {
+                String elemento = rs.getString("elemento");
+                cbartista.addItem(elemento);
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
     }
 
     /**
@@ -30,10 +84,10 @@ public class V20 extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         btnrefrescar = new javax.swing.JButton();
-        cbnivel = new javax.swing.JComboBox();
+        cbgenero = new javax.swing.JComboBox();
         jLabel17 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        cbcolor = new javax.swing.JComboBox();
+        cbartista = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         btngrabar = new javax.swing.JToggleButton();
         jLabel13 = new javax.swing.JLabel();
@@ -60,19 +114,19 @@ public class V20 extends javax.swing.JFrame {
         });
         jPanel1.add(btnrefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 110, 30));
 
-        jPanel1.add(cbnivel, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 171, 35));
+        jPanel1.add(cbgenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 220, 35));
 
         jLabel17.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel17.setText("Nivel:");
+        jLabel17.setText("Genero:");
         jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 100, 30));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel7.setText("Artista");
+        jLabel7.setText("Artista:");
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 80, 30));
 
-        jPanel1.add(cbcolor, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 171, 35));
+        jPanel1.add(cbartista, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 260, 35));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 700, 390));
 
@@ -101,7 +155,7 @@ public class V20 extends javax.swing.JFrame {
         getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 90, 43));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel15.setText("CONTROL REMOTO");
+        jLabel15.setText("CD");
         getContentPane().add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 230, 40));
 
         btnregresar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -127,37 +181,35 @@ public class V20 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnrefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrefrescarActionPerformed
-        llenarcolor();
-        llenarnivel();
-        llenarlistaincluye();
-        llenarlistaincluyeentradas();
+        artistagenero();
+        artistagrupo();
     }//GEN-LAST:event_btnrefrescarActionPerformed
 
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
-        int result = JOptionPane.showConfirmDialog(null, "seguro que quieres capturar el codigo?", "ATENCION",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE);
+        int result = JOptionPane.showConfirmDialog(null, "Seguro que quieres capturar el codigo?", "ATENCION",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
 
-        if (result == JOptionPane.YES_OPTION) {
-            insertarcodigo();
-            CapturaCodigo cc = new CapturaCodigo();
-            cc.setVisible(true);
-            this.dispose();
+        /* if (result == JOptionPane.YES_OPTION) {
+         insertarcodigo();
+         CapturaCodigo cc = new CapturaCodigo();
+         cc.setVisible(true);
+         this.dispose();
 
-        } else if (result == JOptionPane.NO_OPTION) {
+         } else if (result == JOptionPane.NO_OPTION) {
 
-        }
+         }*/
     }//GEN-LAST:event_btngrabarActionPerformed
 
     private void btnregresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregresarActionPerformed
-        this.dispose();
-        CapturaCodigo cc = new CapturaCodigo();
-        cc.setVisible(true);
+        /*    this.dispose();
+         CapturaCodigo cc = new CapturaCodigo();
+         cc.setVisible(true);*/
     }//GEN-LAST:event_btnregresarActionPerformed
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed
-        NuevaOpcion m = new NuevaOpcion();
-        m.setVisible(true);
+        /*NuevaOpcion m = new NuevaOpcion();
+         m.setVisible(true);*/
     }//GEN-LAST:event_btnagregarActionPerformed
 
     /**
@@ -171,7 +223,7 @@ public class V20 extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -200,8 +252,8 @@ public class V20 extends javax.swing.JFrame {
     private javax.swing.JToggleButton btngrabar;
     private javax.swing.JButton btnrefrescar;
     private javax.swing.JButton btnregresar;
-    private javax.swing.JComboBox cbcolor;
-    private javax.swing.JComboBox cbnivel;
+    private javax.swing.JComboBox cbartista;
+    private javax.swing.JComboBox cbgenero;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
