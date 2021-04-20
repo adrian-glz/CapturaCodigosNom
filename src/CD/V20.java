@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -26,11 +27,15 @@ public class V20 extends javax.swing.JFrame {
 
     public V20() {
         initComponents();
-        artistagenero();
-        artistagrupo();
+        llenargenero();
+        llenargrupo();
+        llenarlinea();
+             AutoCompleteDecorator.decorate(cblinea);
+             AutoCompleteDecorator.decorate(cbgenero);
+             AutoCompleteDecorator.decorate(cbartista);
     }
 
-    public void artistagenero() {
+    public void llenargenero() {
         cbgenero.removeAllItems();
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
@@ -51,7 +56,7 @@ public class V20 extends javax.swing.JFrame {
         }
     }
 
-    public void artistagrupo() {
+    public void llenargrupo() {
         cbartista.removeAllItems();
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
@@ -63,6 +68,27 @@ public class V20 extends javax.swing.JFrame {
             while (rs.next()) {
                 String elemento = rs.getString("elemento");
                 cbartista.addItem(elemento);
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    public void llenarlinea() {
+        cblinea.removeAllItems();
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
+            st = conexion.createStatement();
+            st.executeUpdate("use noms;");
+            rs = st.executeQuery("SELECT * FROM cdlinea order by  elemento asc");
+
+            while (rs.next()) {
+                String elemento = rs.getString("elemento");
+                cblinea.addItem(elemento);
             }
             st.close();
         } catch (Exception e) {
@@ -88,6 +114,8 @@ public class V20 extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cbartista = new javax.swing.JComboBox();
+        jLabel18 = new javax.swing.JLabel();
+        cblinea = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         btngrabar = new javax.swing.JToggleButton();
         jLabel13 = new javax.swing.JLabel();
@@ -96,6 +124,7 @@ public class V20 extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         btnregresar = new javax.swing.JButton();
         btnagregar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -112,7 +141,7 @@ public class V20 extends javax.swing.JFrame {
                 btnrefrescarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnrefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 110, 30));
+        jPanel1.add(btnrefrescar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 110, 30));
 
         jPanel1.add(cbgenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 220, 35));
 
@@ -127,6 +156,13 @@ public class V20 extends javax.swing.JFrame {
         jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 80, 30));
 
         jPanel1.add(cbartista, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, 260, 35));
+
+        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel18.setText("Linea:");
+        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 100, 30));
+
+        jPanel1.add(cblinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 50, 220, 35));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 700, 390));
 
@@ -177,28 +213,22 @@ public class V20 extends javax.swing.JFrame {
         });
         getContentPane().add(btnagregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 460, 270, 60));
 
+        jLabel2.setText("  ");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 530, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnrefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrefrescarActionPerformed
-        artistagenero();
-        artistagrupo();
+        llenargenero();
+        llenargrupo();
+        llenarlinea();
     }//GEN-LAST:event_btnrefrescarActionPerformed
 
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
         int result = JOptionPane.showConfirmDialog(null, "Seguro que quieres capturar el codigo?", "ATENCION",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
-
-        /* if (result == JOptionPane.YES_OPTION) {
-         insertarcodigo();
-         CapturaCodigo cc = new CapturaCodigo();
-         cc.setVisible(true);
-         this.dispose();
-
-         } else if (result == JOptionPane.NO_OPTION) {
-
-         }*/
     }//GEN-LAST:event_btngrabarActionPerformed
 
     private void btnregresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregresarActionPerformed
@@ -254,11 +284,14 @@ public class V20 extends javax.swing.JFrame {
     private javax.swing.JButton btnregresar;
     private javax.swing.JComboBox cbartista;
     private javax.swing.JComboBox cbgenero;
+    private javax.swing.JComboBox cblinea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

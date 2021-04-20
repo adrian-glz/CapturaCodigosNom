@@ -1,7 +1,5 @@
- package PRINCIPAL;
- 
- 
- 
+package PRINCIPAL;
+
 import CodigoPOJO.CodigoPOJO;
 import INST_MUSICALES.V178;
 import INST_MUSICALES.V561;
@@ -768,24 +766,19 @@ public class CapturaCodigo extends javax.swing.JFrame {
     }
 
     public void existecodigo() {
-
         try {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
             st = conexion.createStatement();
             st.executeUpdate("use noms");
             rs = st.executeQuery("select codigo from noms1web where codigo='" + txt_id.getText() + "'");
-
             boolean variable = rs.next();
-
             String s1 = Boolean.toString(variable);
-
             try {
                 if (s1.equals("false")) {
                     while (rs.next()) {///
                     }
                     destinoventana();
-
                 } else {
                     JOptionPane.showMessageDialog(null, "El codigo ya esta registrado en nom --> " + txt_id.getText(), "Alerta", JOptionPane.WARNING_MESSAGE);
                 }
@@ -1216,7 +1209,7 @@ public class CapturaCodigo extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnsig, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 390, 310, 60));
-        getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 930, 510));
+        getContentPane().add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 370));
 
         pack();
         setLocationRelativeTo(null);
