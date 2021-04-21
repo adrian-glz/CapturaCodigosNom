@@ -1262,17 +1262,13 @@ public class CapturaCodigo extends javax.swing.JFrame {
         String cadena = "https://www.sounds.mx/catalogo?b=";
                 
         String cadena2 = "https://www0.sounds.mx/advanced_search_result.php?keywords=";
-     //   String cadena3 = "https://www.sounds.mx/admin/?modulo=prd&sku=";
- 
+     
         if(txt_id.getText().length()>1){       
         String C = txt_id.getText().replaceAll("[ ]", "");
-        //.out.println(C);
         try {
           Desktop.getDesktop().browse(new URI(cadena + C));
            Desktop.getDesktop().browse(new URI(cadena2 + C));
-          //  Desktop.getDesktop().browse(new URI(cadena3 + C));
-         //   Desktop.getDesktop().browse(new URI("https://www.sounds.mx/?mod=catalogo&b=SWSMM2"));
-
+     
         } catch (URISyntaxException ex) {
             System.out.println("error");
         } catch (IOException ex) {

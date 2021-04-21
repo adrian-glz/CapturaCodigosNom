@@ -5,6 +5,8 @@
  */
 package PRINCIPAL;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author agonzalez
@@ -16,6 +18,7 @@ public class Agregafamilia extends javax.swing.JFrame {
      */
     public Agregafamilia() {
         initComponents();
+          setIconImage(new ImageIcon(getClass().getResource("/recursos/logo.png")).getImage());
     }
 
     /**
@@ -37,18 +40,20 @@ public class Agregafamilia extends javax.swing.JFrame {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Nueva familia:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(33, 41, 80, 30));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 41, 90, 30));
 
         txtnuevafamilia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtnuevafamiliaKeyTyped(evt);
             }
         });
-        getContentPane().add(txtnuevafamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 210, 30));
+        getContentPane().add(txtnuevafamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 260, 30));
 
+        btnagregafamilia.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnagregafamilia.setText("agregar");
-        getContentPane().add(btnagregafamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 160, 30));
+        getContentPane().add(btnagregafamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 180, 30));
 
         jLabel2.setText("  ");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 160, -1, -1));

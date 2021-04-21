@@ -24,6 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -41,7 +42,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         
         initComponents();
-      
+        setIconImage(new ImageIcon(getClass().getResource("/recursos/logo.png")).getImage());
         TextPrompt codigosoundst = new TextPrompt("Codigo Sounds", txtcodigosounds);
         TextPrompt codigoproveedort = new TextPrompt("Codigo Proveedor o fisico", txtcodigoproveedor);
         TextPrompt codigobarrast = new TextPrompt("Codigo de barras", txtcodigobarras);
@@ -62,8 +63,9 @@ public class Principal extends javax.swing.JFrame {
         lblfecha.setText(fechadisplay);
         txtcodigosounds.requestFocusInWindow();
         jpanelcostos.setVisible(false);
-         btngenerar.setEnabled(false);
-            btngenerar.setVisible(false);
+        btngenerar.setEnabled(false);
+        btngenerar.setVisible(false);
+        
         /*  textAutoCompleter = new TextAutoCompleter(txtgenero, new AutoCompleterCallback() {
          @Override
          public void callback(Object o) {
@@ -375,7 +377,7 @@ public class Principal extends javax.swing.JFrame {
         lblcodigosounds.setText(" ");
         getContentPane().add(lblcodigosounds, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, 170, -1));
 
-        btngenerar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btngenerar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btngenerar.setText("Generar");
         btngenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
