@@ -39,7 +39,9 @@ public class Principal extends javax.swing.JFrame {
     String generoid, grupoid,proveedorid;
 
     public Principal() {
+        
         initComponents();
+      
         TextPrompt codigosoundst = new TextPrompt("Codigo Sounds", txtcodigosounds);
         TextPrompt codigoproveedort = new TextPrompt("Codigo Proveedor o fisico", txtcodigoproveedor);
         TextPrompt codigobarrast = new TextPrompt("Codigo de barras", txtcodigobarras);
@@ -53,11 +55,15 @@ public class Principal extends javax.swing.JFrame {
         AutoCompleteDecorator.decorate(jcgenero);
         AutoCompleteDecorator.decorate(jcgrupo);
         AutoCompleteDecorator.decorate(jcproveedor);
-        
+
         GregorianCalendar gg = new GregorianCalendar();
         SimpleDateFormat dd = new SimpleDateFormat("yyyy/MM/dd");
         String fechadisplay = dd.format(gg.getTime());
-        lblfecha.setText(fechadisplay);   
+        lblfecha.setText(fechadisplay);
+        txtcodigosounds.requestFocusInWindow();
+        jpanelcostos.setVisible(false);
+         btngenerar.setEnabled(false);
+            btngenerar.setVisible(false);
         /*  textAutoCompleter = new TextAutoCompleter(txtgenero, new AutoCompleterCallback() {
          @Override
          public void callback(Object o) {
@@ -75,8 +81,9 @@ public class Principal extends javax.swing.JFrame {
         });
 
         PersonaJDBC.cargargrupos(textAutoCompleter);*/
+          
     }
-   public void llenarfamilia() {
+    public void llenarfamilia() {
         //  jcfamilia.removeAllItems();
 
         try {
@@ -96,6 +103,19 @@ public class Principal extends javax.swing.JFrame {
             e.printStackTrace();
             return;
         }
+    }
+    public void nuevoelementofamilia() {
+        //  jcfamilia.removeAllItems();
+
+       
+
+          
+               
+                jcfamilia.addItem("");
+            
+           
+         
+         
     }
 
     public void llenarproveedor() {
@@ -164,6 +184,7 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 //////////////////////////////////////////////////////////////////////
+
     public void obtenidgenero() {
         String g = jcgenero.getSelectedItem().toString().trim();
         try {
@@ -218,7 +239,7 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
- 
+
   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -242,7 +263,7 @@ public class Principal extends javax.swing.JFrame {
         btnayuda = new javax.swing.JButton();
         txtcodigosounds = new javax.swing.JTextField();
         lblcodigosounds = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btngenerar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jcprocedencia = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
@@ -250,11 +271,12 @@ public class Principal extends javax.swing.JFrame {
         lblfecha = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jcapartado = new javax.swing.JComboBox();
-        jPanel1 = new javax.swing.JPanel();
+        jpanelcostos = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         txtPrecioventa = new javax.swing.JTextField();
         txtCosto = new javax.swing.JTextField();
+        btnagregarfamilia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Captura codigo nuevo");
@@ -269,7 +291,7 @@ public class Principal extends javax.swing.JFrame {
                 txtcodigoproveedorKeyTyped(evt);
             }
         });
-        getContentPane().add(txtcodigoproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 180, 30));
+        getContentPane().add(txtcodigoproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 180, 30));
 
         txtcodigobarras.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtcodigobarras.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -277,7 +299,7 @@ public class Principal extends javax.swing.JFrame {
                 txtcodigobarrasKeyTyped(evt);
             }
         });
-        getContentPane().add(txtcodigobarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 140, 30));
+        getContentPane().add(txtcodigobarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 30, 140, 30));
 
         txtdescripcion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtdescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -285,7 +307,7 @@ public class Principal extends javax.swing.JFrame {
                 txtdescripcionKeyTyped(evt);
             }
         });
-        getContentPane().add(txtdescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 20, 140, 30));
+        getContentPane().add(txtdescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 30, 140, 30));
 
         jcgrupo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcgrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -293,7 +315,7 @@ public class Principal extends javax.swing.JFrame {
 
         jcgenero.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcgenero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jcgenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 180, 30));
+        getContentPane().add(jcgenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 210, 30));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Grupo");
@@ -301,7 +323,7 @@ public class Principal extends javax.swing.JFrame {
 
         lblcodigobarras.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblcodigobarras.setText("  ");
-        getContentPane().add(lblcodigobarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 5, 130, -1));
+        getContentPane().add(lblcodigobarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 15, 130, -1));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Genero");
@@ -309,19 +331,19 @@ public class Principal extends javax.swing.JFrame {
 
         lblproveedor.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblproveedor.setText(" ");
-        getContentPane().add(lblproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 5, 180, -1));
+        getContentPane().add(lblproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 15, 180, -1));
 
         lbldescripcion.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lbldescripcion.setText("  ");
-        getContentPane().add(lbldescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 5, 130, -1));
+        getContentPane().add(lbldescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 15, 130, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel5.setText("Proveedor");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 65, -1, -1));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 65, -1, -1));
 
         jcproveedor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcproveedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jcproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 80, 180, 30));
+        getContentPane().add(jcproveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 80, 180, 30));
 
         jcestatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcestatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A", "C", "D" }));
@@ -339,7 +361,7 @@ public class Principal extends javax.swing.JFrame {
                 btnayudaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnayuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 10, 60, 50));
+        getContentPane().add(btnayuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 20, 60, 50));
 
         txtcodigosounds.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtcodigosounds.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -347,19 +369,20 @@ public class Principal extends javax.swing.JFrame {
                 txtcodigosoundsKeyTyped(evt);
             }
         });
-        getContentPane().add(txtcodigosounds, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 170, 30));
+        getContentPane().add(txtcodigosounds, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 170, 30));
 
         lblcodigosounds.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblcodigosounds.setText(" ");
-        getContentPane().add(lblcodigosounds, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 5, 140, -1));
+        getContentPane().add(lblcodigosounds, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, 170, -1));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btngenerar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btngenerar.setText("Generar");
+        btngenerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btngenerarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 310, 390, 40));
+        getContentPane().add(btngenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, 390, 40));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Procedencia");
@@ -378,24 +401,26 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(jcfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, 30));
 
         lblfecha.setText("  ");
-        getContentPane().add(lblfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 360, 80, 20));
+        getContentPane().add(lblfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 340, 80, 20));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Clave Apartado");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 115, -1, -1));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(445, 115, -1, -1));
 
         jcapartado.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jcapartado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--NO APLICA--" }));
-        getContentPane().add(jcapartado, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 130, 30));
+        jcapartado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--NO APLICA--", "APLICA" }));
+        getContentPane().add(jcapartado, new org.netbeans.lib.awtextra.AbsoluteConstraints(445, 130, 130, 30));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jpanelcostos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jpanelcostos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel10.setText("Precio Venta:");
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 70, 30));
+        jpanelcostos.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 80, 30));
 
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel11.setText("Costo:");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 40, 30));
+        jpanelcostos.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 40, 30));
 
         txtPrecioventa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtPrecioventa.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -403,7 +428,7 @@ public class Principal extends javax.swing.JFrame {
                 txtPrecioventaKeyTyped(evt);
             }
         });
-        jPanel1.add(txtPrecioventa, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 140, 30));
+        jpanelcostos.add(txtPrecioventa, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 160, 30));
 
         txtCosto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCosto.addActionListener(new java.awt.event.ActionListener() {
@@ -416,9 +441,13 @@ public class Principal extends javax.swing.JFrame {
                 txtCostoKeyTyped(evt);
             }
         });
-        jPanel1.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 140, 30));
+        jpanelcostos.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 160, 30));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 250, 90));
+        getContentPane().add(jpanelcostos, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, 260, 90));
+
+        btnagregarfamilia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/123.png"))); // NOI18N
+        btnagregarfamilia.setContentAreaFilled(false);
+        getContentPane().add(btnagregarfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 133, 20, 20));
 
         pack();
         setLocationRelativeTo(null);
@@ -430,6 +459,8 @@ public class Principal extends javax.swing.JFrame {
         } else {
             lblproveedor.setText("");
         }
+        
+        mostrarpanelcostos();
     }//GEN-LAST:event_txtcodigoproveedorKeyTyped
 
     private void txtcodigobarrasKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigobarrasKeyTyped
@@ -438,6 +469,8 @@ public class Principal extends javax.swing.JFrame {
         } else {
             lblcodigobarras.setText("");
         }
+        
+        mostrarpanelcostos();
     }//GEN-LAST:event_txtcodigobarrasKeyTyped
 
     private void txtdescripcionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdescripcionKeyTyped
@@ -446,6 +479,8 @@ public class Principal extends javax.swing.JFrame {
         } else {
             lbldescripcion.setText("");
         }
+        
+        mostrarpanelcostos();
     }//GEN-LAST:event_txtdescripcionKeyTyped
 
     private void btnayudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnayudaActionPerformed
@@ -454,43 +489,60 @@ public class Principal extends javax.swing.JFrame {
                 + "D=DESCATALOGADO\n"
                 + "C=CANCELADO");
     }//GEN-LAST:event_btnayudaActionPerformed
-
+    public void mostrarpanelcostos() {
+        if (txtcodigosounds.getText().length() > 0
+                & txtcodigoproveedor.getText().length() > 0
+                & txtcodigobarras.getText().length() > 0
+                & txtdescripcion.getText().length() > 0) {
+            jpanelcostos.setVisible(true);
+             btngenerar.setVisible(true);
+        } else {
+            jpanelcostos.setVisible(false);
+           
+        }
+    }
     private void txtcodigosoundsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigosoundsKeyTyped
         if (txtcodigosounds.getText().length() > 0) {
             lblcodigosounds.setText("Codigo Sounds");
         } else {
             lblcodigosounds.setText("");
-        }        // TODO add your handling code here:
+        }
+        mostrarpanelcostos();
+// TODO add your handling code here:
     }//GEN-LAST:event_txtcodigosoundsKeyTyped
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      ///variables para uso en insert sql
-        System.out.println(">>>"+jcfamilia.getSelectedItem().toString());
-        if (txtcodigosounds.equals(" ")
-                || txtcodigoproveedor.equals(" ")
-                || txtcodigobarras.equals(" ")
-                || txtdescripcion.equals(" ")
-                || txtCosto.equals(" ")
-                || txtPrecioventa.equals(" ")
-                || jcfamilia.getSelectedItem().toString().equals("--NO APLICA--")) {
-
-            JOptionPane.showMessageDialog(rootPane, "Faltan datos, si aparecen datos en blanco, comunicate con el comprador responsable");
-
-          //  vaciarcampiosvalores();
+    private void btngenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngenerarActionPerformed
+        ///variables para uso en insert sql
+        System.out.println(">>>" + txtCosto.getText());
+        if (txtcodigosounds.getText().equals("")
+                || txtcodigoproveedor.getText().equals("")
+                || txtcodigobarras.getText().equals("")
+                || txtdescripcion.getText().equals("")
+                || txtCosto.getText().equals("")
+                || txtPrecioventa.getText().equals("")
+              //  || jcfamilia.getSelectedItem().toString().equals("--NO APLICA--")
+                ) {
+            JOptionPane.showMessageDialog(rootPane, "Faltan datos , favor de capturarlos todos");
+            //  vaciarcampiosvalores();
         } else {
-          ExisteCodigo();
+            ExisteCodigo();
         }
-        
-        
-      
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btngenerarActionPerformed
 
     private void txtPrecioventaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioventaKeyTyped
-        // TODO add your handling code here:
+        if (txtPrecioventa.getText().length() > 0) {
+            btngenerar.setEnabled(true);
+        } else {
+            btngenerar.setEnabled(false);
+        }
     }//GEN-LAST:event_txtPrecioventaKeyTyped
 
     private void txtCostoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCostoKeyTyped
-        // TODO add your handling code here:
+        if (txtCosto.getText().length() > 0) {
+            
+        } else {
+            btngenerar.setEnabled(false);
+        }
     }//GEN-LAST:event_txtCostoKeyTyped
 
     private void txtCostoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCostoActionPerformed
@@ -561,7 +613,7 @@ public class Principal extends javax.swing.JFrame {
         } else {
             apartado = "A";
         }
-        if (procedencia.equals("Importado")) {
+        if (procedencia.equals("Nacional")) {
             procedencia = "1";
         } else {
             procedencia = "0";
@@ -571,34 +623,33 @@ public class Principal extends javax.swing.JFrame {
             familia = "NULL";
         }
 
-
-       /* try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://" + "192.168.1.80:55024" + "", "usounds", "madljda");
-            st.executeUpdate("use cml;");
+          try {
+          Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
             Statement st = conexion.createStatement();
-
+            st.executeUpdate("use cml;");
             ps = conexion.prepareStatement("insert into codigos  (Codigo, CodigoProv, Estatus, Codigo2, CodigoNuevo, Descripcion,"
                     + " Artista,UnidadMedida  , Genero , Grupo  , Linea  , Proveedor, Proveedor2 , Nacional , Iva  , ClaveApartado ,"
                     + " CostoLista  , CostoNetoLista , CostoReposicion, PrecioVenta, FechaAlta , FechaActualizacion , TipoArticulo ,"
                     + " FechaActExpCosto, DescClienFrec ) "
                     + "VALUES('" + codigosounds + "',"
-                    + "'" + codigoproveedor + "','" + estatus + "','" + codigobarras + "','NULL'," ////nacional
-                    + "'" + descripcion + "','NULL','PZA','" + generoid + "','" + grupoid + "','NULL','" + proveedorid + "','" + proveedorid + "','" + procedencia + "','11.00','" + apartado + "'"
-                    + ",'" + costo + "','" + costo + "','" + costo + "','" + precioventa + "','getdate()','NULL','Sin Clasificacion','NULL','0.00','NULL');");
+                    + "'" + codigoproveedor + "','" + estatus + "','" + codigobarras + "',NULL," ////nacional
+                    + "'" + descripcion + "',NULL,'PZA','" + generoid + "','" + grupoid + "',NULL,'" + proveedorid + "','" + proveedorid + "','" + procedencia + "','11.00','" + apartado + "'"
+                    + ",'" + costo + "','" + costo + "','" + costo + "','" + precioventa + "',getdate(),NULL,'S',NULL,'0.00')");
             int n = ps.executeUpdate();
             //  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
-            if (n >= 0) {
+            if (n > 0) {
                 JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente!");
                 System.out.println("¡Los datos han sido guardados exitósamente!" + n);
+                
                 //  limpiarventanas();
             }
         } catch (HeadlessException | SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos");
+            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos"+ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
-*/
+ 
     }
     
     
@@ -638,8 +689,9 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnagregarfamilia;
     private javax.swing.JButton btnayuda;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btngenerar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -650,7 +702,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JComboBox jcapartado;
     private javax.swing.JComboBox jcestatus;
     private javax.swing.JComboBox jcfamilia;
@@ -658,6 +709,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox jcgrupo;
     private javax.swing.JComboBox jcprocedencia;
     private javax.swing.JComboBox jcproveedor;
+    private javax.swing.JPanel jpanelcostos;
     private javax.swing.JLabel lblcodigobarras;
     private javax.swing.JLabel lblcodigosounds;
     private javax.swing.JLabel lbldescripcion;

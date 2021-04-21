@@ -222,33 +222,7 @@ public final class V561 extends javax.swing.JFrame {
                     + "('" + codigo + "','" + codigo2 + "','" + descripcion + "','" + Vnacional + "','" + grupo + "','" + descgrupo + "','" + g + "','" + descgenero + "','" + costounitario + "','" + precioventa + "','" + preciooferta + "','" + ahorro + "','" + utilidad + "','" + margen + "','" + marca + "','" + hecho + "','" + importador + "','" + exportador + "',getdate(),'" + categoriaweb + "' "
                     + ",'" + "TIPO " + tipo + "','" + "AFINACION " + afinacion + "','" + "NUMERO DE TECLA(S) " + teclas + "','" + "COLOR " + color + "','" + "INCLUYE " + incluye + "','null','null','null','null','null','null','null')");
 
-//   + ",'" + "TAMAÑO  " + tamano + "','"  +"CONEXION "+   cone + "' ,'"+"COLOR "+color+"','"  + "INCLUYE " + incluye + "','null','null'null','null','null','null','null','null')");
-            System.out.println(
-                    "CODIGO:" + codigo + "\n"
-                    + "CODIGO2:" + codigo2 + "\n"
-                    + "DESCRIPCION:" + descripcion + "\n"
-                    + "NACIONAL:" + Vnacional + "\n"
-                    + "GRUPO:" + grupo + "\n"
-                    + "DESCRIPCION GRUPO:" + descgrupo + "\n"
-                    + "# GENERO:" + g + "\n"
-                    + "DESCRIPCION GENERO:" + descgenero + "\n"
-                    + "COSTO UNITARIO:" + costounitario + "\n"
-                    + "PRECIO VENTA:" + precioventa + "\n"
-                    + "PRECIO OFERTA:" + preciooferta + "\n"
-                    + "AHORRO:" + ahorro + "\n"
-                    + "UTILIDAD:" + utilidad + "\n"
-                    + "MARGEN:" + margen + "\n"
-                    + "MARCA:" + marca + "\n"
-                    + "HECHO EN:" + hecho + "\n"
-                    + "IMPORTADOR:" + importador + "\n"
-                    + "EXPORTADOR:" + exportador + "\n"
-                    + "CAT WEB:" + categoriaweb + "\n"
-                    //       + "MULTIFUNCIONAL:" + multifuncional + "\n"
-                    //     + "VELOCIDAD:" + velocidad + "\n"
-                    //        + "CONECTIVIDAD:" + conectividad + "\n"
-                    + "COLOR:" + color + "\n"
-                    + "INCLUYE:" + incluye + "\n"
-            );
+ 
 
             int n = ps.executeUpdate();
             if (n > 0) {
