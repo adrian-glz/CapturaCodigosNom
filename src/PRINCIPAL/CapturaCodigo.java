@@ -1344,7 +1344,7 @@ public class CapturaCodigo extends javax.swing.JFrame {
     private javax.swing.JTextField txt_genero;
     private javax.swing.JTextField txt_grupo;
     private javax.swing.JTextField txt_hecho;
-    private javax.swing.JTextField txt_id;
+    public static javax.swing.JTextField txt_id;
     private javax.swing.JTextField txt_marca;
     private javax.swing.JTextField txt_margen;
     private javax.swing.JTextField txt_nacionalidad;

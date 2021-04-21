@@ -24,8 +24,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableColumn;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -56,7 +59,7 @@ public class Principal extends javax.swing.JFrame {
         AutoCompleteDecorator.decorate(jcgenero);
         AutoCompleteDecorator.decorate(jcgrupo);
         AutoCompleteDecorator.decorate(jcproveedor);
-
+        llenartablacategorias();
         GregorianCalendar gg = new GregorianCalendar();
         SimpleDateFormat dd = new SimpleDateFormat("yyyy/MM/dd");
         String fechadisplay = dd.format(gg.getTime());
@@ -84,6 +87,31 @@ public class Principal extends javax.swing.JFrame {
 
         PersonaJDBC.cargargrupos(textAutoCompleter);*/
           
+    }
+    public void llenartablacategorias(){
+     TableColumn testColumn = jtcategorias.getColumnModel().getColumn(0);
+
+    JComboBox<String> jccategories = new JComboBox<>();
+    AutoCompleteDecorator.decorate(jccategories);
+        
+      try {
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
+            st.executeUpdate("use cml;");
+            rs = st.executeQuery("select * from categories order by categories_id ASC");
+
+            while (rs.next()) {
+                String elemento = rs.getString("categories_id").trim()+" "+rs.getString("categories_name_espanol").trim();
+                jccategories.addItem(elemento);
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    testColumn.setCellEditor(new DefaultCellEditor(jccategories));
     }
     public void llenarfamilia() {
         //  jcfamilia.removeAllItems();
@@ -155,6 +183,28 @@ public class Principal extends javax.swing.JFrame {
             while (rs.next()) {
                 String elemento = rs.getString("descripcion").trim();
                 jcgenero.addItem(elemento);
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    }
+    
+     public void llenarcategories() {
+        jcgrupo.removeAllItems();
+
+        try {
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
+
+            rs = st.executeQuery("select * from grupos order by descripcion asc");
+
+            while (rs.next()) {
+                String elemento = rs.getString("descripcion").trim();
+                jcgrupo.addItem(elemento);
             }
             st.close();
         } catch (Exception e) {
@@ -279,6 +329,9 @@ public class Principal extends javax.swing.JFrame {
         txtPrecioventa = new javax.swing.JTextField();
         txtCosto = new javax.swing.JTextField();
         btnagregarfamilia = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jtcategorias = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Captura codigo nuevo");
@@ -445,11 +498,38 @@ public class Principal extends javax.swing.JFrame {
         });
         jpanelcostos.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 160, 30));
 
-        getContentPane().add(jpanelcostos, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 170, 260, 90));
+        getContentPane().add(jpanelcostos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 260, 90));
 
         btnagregarfamilia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/123.png"))); // NOI18N
         btnagregarfamilia.setContentAreaFilled(false);
         getContentPane().add(btnagregarfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 133, 20, 20));
+
+        jtcategorias.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Categorias"
+            }
+        ));
+        jtcategorias.setRowHeight(20);
+        jScrollPane1.setViewportView(jtcategorias);
+        if (jtcategorias.getColumnModel().getColumnCount() > 0) {
+            jtcategorias.getColumnModel().getColumn(0).setResizable(false);
+            jtcategorias.getColumnModel().getColumn(0).setPreferredWidth(80);
+        }
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, 240, 90));
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 180, -1, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -551,6 +631,33 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCostoActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+          for (int x = 0; x < jtfinal.getRowCount(); x++) {
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
+                Statement ste = conexion.createStatement();
+                ste.executeUpdate("USE prueba;");
+                String vcodigo = ((String) jtfinal.getValueAt(x, 0));//obtener valor de precio
+                String vdescripcion = ((String) jtfinal.getValueAt(x, 1));//obtener valor de precio
+                String vprecio = ((String) jtfinal.getValueAt(x, 2));///obtienes el valor de la cantidad
+                int vcantidad = ((int) jtfinal.getValueAt(x, 3));///obtienes el valor de la cantidad
+                String vprecioformateado = vprecio.replaceAll("[^0-1-2-3-4-5-6-7-8-9-.00]", "");//dejameos solo los elementos"[^0-1-2-3-4-5-6-7-8-9-.00]"
+                double vprecioparseado = Double.parseDouble(vprecioformateado);
+                pse = conexion.prepareStatement("INSERT INTO ventas ( `fecha`,`Sucursal`, `Folio`, `Caja`, `Articulo`, `Codigo`, `Grupo`, `Cantidad`, `Precioventa`, `Vendedor`, `Cajero`, `Claveventa`, `Hora`) "
+                        + "VALUES ( '" + rfecha + "','1','" + folio + "','1','" + numarticulo + "','" + vcodigo + "','00','" + vcantidad + "','" + vprecioformateado + "','1111','00','777','" + rhora + "')");
+                numarticulo = numarticulo + 1;
+                n = pse.executeUpdate();
+
+            } catch (HeadlessException | SQLException ex) {
+                JOptionPane.showMessageDialog(rootPane, "Error en la base de datos 901" + ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public void ExisteCodigo() {//comprobar 
 
         ////evento para buscar codigo
@@ -637,14 +744,20 @@ public class Principal extends javax.swing.JFrame {
                     + "VALUES('" + codigosounds + "',"
                     + "'" + codigoproveedor + "','" + estatus + "','" + codigobarras + "',NULL," ////nacional
                     + "'" + descripcion + "',NULL,'PZA','" + generoid + "','" + grupoid + "',NULL,'" + proveedorid + "','" + proveedorid + "','" + procedencia + "','11.00','" + apartado + "'"
-                    + ",'" + costo + "','" + costo + "','" + costo + "','" + precioventa + "',getdate(),NULL,'S',NULL,'0.00')");
-            int n = ps.executeUpdate();
-            //  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
-            if (n > 0) {
-                JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente!");
-                System.out.println("¡Los datos han sido guardados exitósamente!" + n);
-                
-                //  limpiarventanas();
+                      + ",'" + costo + "','" + costo + "','" + costo + "','" + precioventa + "',getdate(),NULL,'S',NULL,'0.00')");
+              int n = ps.executeUpdate();
+              //  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
+              if (n > 0) {
+                  JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente!");
+                  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
+                  CapturaCodigo c = new CapturaCodigo();
+                  c.txt_id.setText(codigosounds);
+                  this.dispose();
+                  c.setVisible(true);
+                  c.colorearblanco();
+                  c.vaciarcampiosvalores();
+                  c.recuperarcampos();
+                  //  limpiarventanas();
             }
         } catch (HeadlessException | SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos"+ex);
@@ -694,6 +807,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnagregarfamilia;
     private javax.swing.JButton btnayuda;
     private javax.swing.JButton btngenerar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -704,6 +818,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox jcapartado;
     private javax.swing.JComboBox jcestatus;
     private javax.swing.JComboBox jcfamilia;
@@ -712,6 +827,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox jcprocedencia;
     private javax.swing.JComboBox jcproveedor;
     private javax.swing.JPanel jpanelcostos;
+    private javax.swing.JTable jtcategorias;
     private javax.swing.JLabel lblcodigobarras;
     private javax.swing.JLabel lblcodigosounds;
     private javax.swing.JLabel lbldescripcion;
@@ -721,7 +837,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField txtPrecioventa;
     private javax.swing.JTextField txtcodigobarras;
     private javax.swing.JTextField txtcodigoproveedor;
-    private javax.swing.JTextField txtcodigosounds;
+    public static javax.swing.JTextField txtcodigosounds;
     private javax.swing.JTextField txtdescripcion;
     // End of variables declaration//GEN-END:variables
 }
