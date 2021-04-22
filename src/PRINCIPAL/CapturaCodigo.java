@@ -102,7 +102,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class CapturaCodigo extends javax.swing.JFrame {
-    
+
     Statement st;
     PreparedStatement ps = null;
     ResultSet rs;
@@ -137,8 +137,8 @@ public class CapturaCodigo extends javax.swing.JFrame {
         PersonaJDBC.cargarCompleter(textAutoCompleter);
     }
 
-    public void verificarnulos(){
-        if (        codigo.equals(" ")
+    public void verificarnulos() {
+        if (codigo.equals(" ")
                 || codigo2.equals(" ")
                 || nacional.equals(" ")
                 || grupo.equals(" ")
@@ -165,7 +165,7 @@ public class CapturaCodigo extends javax.swing.JFrame {
             existecodigo();
         }
     }
-     
+
     public void destinoventana() {
 
         descripcion = txt_descripcion.getText();
@@ -798,7 +798,7 @@ public class CapturaCodigo extends javax.swing.JFrame {
             Class.forName("net.sourceforge.jtds.jdbc.Driver");
             java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
             st = conexion.createStatement();
-            st.executeUpdate("use cml;");
+            st.executeUpdate("use cml");
 
             //Seleccionar datos
             rs = st.executeQuery("select c.codigo,c.codigo2,c.descripcion,c.nacional,c.grupo,(select descripcion from grupos where grupo=c.grupo) as descgrupo, \n"
@@ -830,7 +830,6 @@ public class CapturaCodigo extends javax.swing.JFrame {
                 btnsig.setEnabled(true);
                 txt_descripcion.setEnabled(true);
 
-                
                 codigo = rs.getString(1).trim();
                 codigo2 = rs.getString(2).trim();
                 String descripcionTEMPORAL = rs.getString(3).trim();
@@ -1258,31 +1257,30 @@ public class CapturaCodigo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnvolverActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    
+
         String cadena = "https://www.sounds.mx/catalogo?b=";
-                
         String cadena2 = "https://www0.sounds.mx/advanced_search_result.php?keywords=";
-     
-        if(txt_id.getText().length()>1){       
-        String C = txt_id.getText().replaceAll("[ ]", "");
-        try {
-          Desktop.getDesktop().browse(new URI(cadena + C));
-           Desktop.getDesktop().browse(new URI(cadena2 + C));
-     
-        } catch (URISyntaxException ex) {
-            System.out.println("error");
-        } catch (IOException ex) {
-            System.out.println("error2"); // hacer algo
+
+        if (txt_id.getText().length() > 1) {
+            String C = txt_id.getText().replaceAll("[ ]", "");
+            try {
+                Desktop.getDesktop().browse(new URI(cadena + C));
+                Desktop.getDesktop().browse(new URI(cadena2 + C));
+
+            } catch (URISyntaxException ex) {
+                System.out.println("error");
+            } catch (IOException ex) {
+                System.out.println("error2"); // hacer algo
+            }
+        } else {
+
+            JOptionPane.showMessageDialog(rootPane, "Capture un codigo valido");
         }
-        }else{
-         
-          JOptionPane.showMessageDialog(rootPane, "Capture un codigo valido");
-        }
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) {
-    
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {

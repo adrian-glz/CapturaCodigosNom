@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package JDBC;
 
 import CodigoPOJO.CodigoPOJO;
@@ -20,9 +15,8 @@ public class PersonaJDBC {
     public static void cargarCompleter(TextAutoCompleter completador) {
         Connection con = null;
         PreparedStatement st = null;
-        
-        
-           try {
+
+        try {
 
             con = Conexion.getConnection();
             st = con.prepareStatement("select c.descripcion,c.codigo from codigos c, periodo p\n"
@@ -36,23 +30,23 @@ public class PersonaJDBC {
                 completador.addItem(pojo);
             }
             rs.close();
-          //  st.closeOnCompletion();///borar si sale algo mal
+            //  st.closeOnCompletion();///borar si sale algo mal
         } catch (Exception e) {
-            
+
             System.out.println("Error al cargar el AutoCompleter " + e);
-            
+
         } finally {
-            
+
             Conexion.close(con);
             Conexion.close(st);
         }
     }
+
     public static void cargargeneros(TextAutoCompleter completador) {
         Connection con = null;
         PreparedStatement st = null;
-        
-        
-           try {
+
+        try {
 
             con = Conexion.getConnection();
             st = con.prepareStatement("select * from generos  order by descripcion");
@@ -63,24 +57,23 @@ public class PersonaJDBC {
                 completador.addItem(pojo);
             }
             rs.close();
-          //  st.closeOnCompletion();///borar si sale algo mal
+            //  st.closeOnCompletion();///borar si sale algo mal
         } catch (Exception e) {
-            
+
             System.out.println("Error al cargar el AutoCompleter " + e);
-            
+
         } finally {
-            
+
             Conexion.close(con);
             Conexion.close(st);
         }
     }
-    
-     public static void cargargrupos(TextAutoCompleter completador) {
+
+    public static void cargargrupos(TextAutoCompleter completador) {
         Connection con = null;
         PreparedStatement st = null;
-        
-        
-           try {
+
+        try {
 
             con = Conexion.getConnection();
             st = con.prepareStatement("select * from grupos  order by descripcion");
@@ -91,16 +84,16 @@ public class PersonaJDBC {
                 completador.addItem(pojo);
             }
             rs.close();
-          //  st.closeOnCompletion();///borar si sale algo mal
+            //  st.closeOnCompletion();///borar si sale algo mal
         } catch (Exception e) {
-            
+
             System.out.println("Error al cargar el AutoCompleter " + e);
-            
+
         } finally {
-            
+
             Conexion.close(con);
             Conexion.close(st);
         }
     }
-    
+
 }

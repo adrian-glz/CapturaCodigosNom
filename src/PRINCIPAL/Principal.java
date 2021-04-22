@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package PRINCIPAL;
 
 import CodigoPOJO.CodigoPOJO;
@@ -40,10 +35,10 @@ public class Principal extends javax.swing.JFrame {
     Statement st;
     PreparedStatement ps = null;
     ResultSet rs;
-    String generoid, grupoid,proveedorid;
+    String generoid, grupoid, proveedorid;
 
     public Principal() {
-        
+
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/recursos/logo.png")).getImage());
         TextPrompt codigosoundst = new TextPrompt("Codigo Sounds", txtcodigosounds);
@@ -68,41 +63,42 @@ public class Principal extends javax.swing.JFrame {
         jpanelcostos.setVisible(false);
         btngenerar.setEnabled(false);
         btngenerar.setVisible(false);
-        
+
         /*  textAutoCompleter = new TextAutoCompleter(txtgenero, new AutoCompleterCallback() {
          @Override
          public void callback(Object o) {
-                Object a = textAutoCompleter.findItem(o);
-                CodigoPOJO personaPOJO = (CodigoPOJO) a;
-            }
-        });
-        PersonaJDBC.cargargeneros(textAutoCompleter);
-        textAutoCompleter = new TextAutoCompleter(txtgrupos, new AutoCompleterCallback() {
-            @Override
-            public void callback(Object o) {
-                Object a = textAutoCompleter.findItem(o);
-                CodigoPOJO personaPOJO = (CodigoPOJO) a;
-            }
-        });
+         Object a = textAutoCompleter.findItem(o);
+         CodigoPOJO personaPOJO = (CodigoPOJO) a;
+         }
+         });
+         PersonaJDBC.cargargeneros(textAutoCompleter);
+         textAutoCompleter = new TextAutoCompleter(txtgrupos, new AutoCompleterCallback() {
+         @Override
+         public void callback(Object o) {
+         Object a = textAutoCompleter.findItem(o);
+         CodigoPOJO personaPOJO = (CodigoPOJO) a;
+         }
+         });
 
-        PersonaJDBC.cargargrupos(textAutoCompleter);*/
-          
+         PersonaJDBC.cargargrupos(textAutoCompleter);*/
     }
-    public void llenartablacategorias(){
-     TableColumn testColumn = jtcategorias.getColumnModel().getColumn(0);
 
-    JComboBox<String> jccategories = new JComboBox<>();
-    AutoCompleteDecorator.decorate(jccategories);
-        
-      try {
+    public void llenartablacategorias() {
+        TableColumn testColumn = jtcategorias.getColumnModel().getColumn(0);
+
+        JComboBox<String> jccategories = new JComboBox<>();
+        AutoCompleteDecorator.decorate(jccategories);
+
+        try {
             Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("use cml;");
             rs = st.executeQuery("select * from categories order by categories_id ASC");
+            // rs = st.executeQuery("select * from categories where parent_id ='"++"'order by categories_id ASC");
 
             while (rs.next()) {
-                String elemento = rs.getString("categories_id").trim()+" "+rs.getString("categories_name_espanol").trim();
+                String elemento = rs.getString("categories_id").trim() + " " + rs.getString("categories_name_espanol").trim();
                 jccategories.addItem(elemento);
             }
             st.close();
@@ -111,8 +107,9 @@ public class Principal extends javax.swing.JFrame {
             e.printStackTrace();
             return;
         }
-    testColumn.setCellEditor(new DefaultCellEditor(jccategories));
+        testColumn.setCellEditor(new DefaultCellEditor(jccategories));
     }
+
     public void llenarfamilia() {
         //  jcfamilia.removeAllItems();
 
@@ -134,18 +131,10 @@ public class Principal extends javax.swing.JFrame {
             return;
         }
     }
+
     public void nuevoelementofamilia() {
         //  jcfamilia.removeAllItems();
-
-       
-
-          
-               
-                jcfamilia.addItem("");
-            
-           
-         
-         
+        jcfamilia.addItem("");
     }
 
     public void llenarproveedor() {
@@ -191,8 +180,8 @@ public class Principal extends javax.swing.JFrame {
             return;
         }
     }
-    
-     public void llenarcategories() {
+
+    public void llenarcategories() {
         jcgrupo.removeAllItems();
 
         try {
@@ -291,8 +280,6 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
-
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -541,7 +528,7 @@ public class Principal extends javax.swing.JFrame {
         } else {
             lblproveedor.setText("");
         }
-        
+
         mostrarpanelcostos();
     }//GEN-LAST:event_txtcodigoproveedorKeyTyped
 
@@ -551,7 +538,7 @@ public class Principal extends javax.swing.JFrame {
         } else {
             lblcodigobarras.setText("");
         }
-        
+
         mostrarpanelcostos();
     }//GEN-LAST:event_txtcodigobarrasKeyTyped
 
@@ -561,7 +548,7 @@ public class Principal extends javax.swing.JFrame {
         } else {
             lbldescripcion.setText("");
         }
-        
+
         mostrarpanelcostos();
     }//GEN-LAST:event_txtdescripcionKeyTyped
 
@@ -577,10 +564,10 @@ public class Principal extends javax.swing.JFrame {
                 & txtcodigobarras.getText().length() > 0
                 & txtdescripcion.getText().length() > 0) {
             jpanelcostos.setVisible(true);
-             btngenerar.setVisible(true);
+            btngenerar.setVisible(true);
         } else {
             jpanelcostos.setVisible(false);
-           
+
         }
     }
     private void txtcodigosoundsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigosoundsKeyTyped
@@ -601,8 +588,7 @@ public class Principal extends javax.swing.JFrame {
                 || txtcodigobarras.getText().equals("")
                 || txtdescripcion.getText().equals("")
                 || txtCosto.getText().equals("")
-                || txtPrecioventa.getText().equals("")
-              //  || jcfamilia.getSelectedItem().toString().equals("--NO APLICA--")
+                || txtPrecioventa.getText().equals("") //  || jcfamilia.getSelectedItem().toString().equals("--NO APLICA--")
                 ) {
             JOptionPane.showMessageDialog(rootPane, "Faltan datos , favor de capturarlos todos");
             //  vaciarcampiosvalores();
@@ -621,7 +607,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void txtCostoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCostoKeyTyped
         if (txtCosto.getText().length() > 0) {
-            
+
         } else {
             btngenerar.setEnabled(false);
         }
@@ -632,28 +618,22 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCostoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-          for (int x = 0; x < jtfinal.getRowCount(); x++) {
+        for (int x = 0; x < jtcategorias.getRowCount(); x++) {
 
             try {
-                Class.forName("com.mysql.jdbc.Driver");
-                java.sql.Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
-                Statement ste = conexion.createStatement();
-                ste.executeUpdate("USE prueba;");
-                String vcodigo = ((String) jtfinal.getValueAt(x, 0));//obtener valor de precio
-                String vdescripcion = ((String) jtfinal.getValueAt(x, 1));//obtener valor de precio
-                String vprecio = ((String) jtfinal.getValueAt(x, 2));///obtienes el valor de la cantidad
-                int vcantidad = ((int) jtfinal.getValueAt(x, 3));///obtienes el valor de la cantidad
-                String vprecioformateado = vprecio.replaceAll("[^0-1-2-3-4-5-6-7-8-9-.00]", "");//dejameos solo los elementos"[^0-1-2-3-4-5-6-7-8-9-.00]"
-                double vprecioparseado = Double.parseDouble(vprecioformateado);
-                pse = conexion.prepareStatement("INSERT INTO ventas ( `fecha`,`Sucursal`, `Folio`, `Caja`, `Articulo`, `Codigo`, `Grupo`, `Cantidad`, `Precioventa`, `Vendedor`, `Cajero`, `Claveventa`, `Hora`) "
-                        + "VALUES ( '" + rfecha + "','1','" + folio + "','1','" + numarticulo + "','" + vcodigo + "','00','" + vcantidad + "','" + vprecioformateado + "','1111','00','777','" + rhora + "')");
-                numarticulo = numarticulo + 1;
-                n = pse.executeUpdate();
 
-            } catch (HeadlessException | SQLException ex) {
+                String vcodigo = ((String) jtcategorias.getValueAt(x, 0).toString());//obtener valor de precio
+                //  String vc= vcodigo.replaceAll("[^0-1-2-3-4-5-6-7-8-9-.00]", "");//dejameos solo los elementos"[^0-1-2-3-4-5-6-7-8-9-.00]"
+                String singuiones = vcodigo.replaceAll("[^0-1-2-3-4-5-6-7-8-9-.00]", "");//dejameos solo los elementos"[^0-1-2-3-4-5-6-7-8-9-.00]"
+                String vfinal = singuiones.replaceAll("[-]", "");//dejameos solo los elementos"[^0-1-2-3-4-5-6-7-8-9-.00]"
+
+                //  pse = conexion.prepareStatement("INSERT INTO ventas ( `fecha`,`Sucursal`, `Folio`, `Caja`, `Articulo`, `Codigo`, `Grupo`, `Cantidad`, `Precioventa`, `Vendedor`, `Cajero`, `Claveventa`, `Hora`) "
+                //         + "VALUES ( '" + rfecha + "','1','" + folio + "','1','" + numarticulo + "','" + vcodigo + "','00','" + vcantidad + "','" + vprecioformateado + "','1111','00','777','" + rhora + "')");
+                //   numarticulo = numarticulo + 1;
+                //   n = pse.executeUpdate();
+                System.out.println("-->" + vfinal);
+            } catch (HeadlessException ex) {
                 JOptionPane.showMessageDialog(rootPane, "Error en la base de datos 901" + ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -711,7 +691,7 @@ public class Principal extends javax.swing.JFrame {
         String estatus = jcestatus.getSelectedItem().toString().trim();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SS");
         LocalDateTime date = LocalDateTime.now();
-        
+
         obtenidgenero();
         obtenidgrupo();
         obtenidproveedor();
@@ -732,8 +712,8 @@ public class Principal extends javax.swing.JFrame {
             familia = "NULL";
         }
 
-          try {
-          Class.forName("net.sourceforge.jtds.jdbc.Driver");
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
             java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
             Statement st = conexion.createStatement();
             st.executeUpdate("use cml;");
@@ -744,30 +724,29 @@ public class Principal extends javax.swing.JFrame {
                     + "VALUES('" + codigosounds + "',"
                     + "'" + codigoproveedor + "','" + estatus + "','" + codigobarras + "',NULL," ////nacional
                     + "'" + descripcion + "',NULL,'PZA','" + generoid + "','" + grupoid + "',NULL,'" + proveedorid + "','" + proveedorid + "','" + procedencia + "','11.00','" + apartado + "'"
-                      + ",'" + costo + "','" + costo + "','" + costo + "','" + precioventa + "',getdate(),NULL,'S',NULL,'0.00')");
-              int n = ps.executeUpdate();
-              //  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
-              if (n > 0) {
-                  JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente!");
-                  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
-                  CapturaCodigo c = new CapturaCodigo();
-                  c.txt_id.setText(codigosounds);
-                  this.dispose();
-                  c.setVisible(true);
-                  c.colorearblanco();
-                  c.vaciarcampiosvalores();
-                  c.recuperarcampos();
-                  //  limpiarventanas();
+                    + ",'" + costo + "','" + costo + "','" + costo + "','" + precioventa + "',getdate(),NULL,'S',NULL,'0.00')");
+            int n = ps.executeUpdate();
+            //  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
+            if (n > 0) {
+                JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente!");
+                System.out.println("¡Los datos han sido guardados exitósamente!" + n);
+                CapturaCodigo c = new CapturaCodigo();
+                c.txt_id.setText(codigosounds);
+                this.dispose();
+                c.setVisible(true);
+                c.colorearblanco();
+                c.vaciarcampiosvalores();
+                c.recuperarcampos();
+                //  limpiarventanas();
             }
         } catch (HeadlessException | SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos"+ex);
+            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos" + ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
- 
+
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */
