@@ -29,8 +29,10 @@ import static PRINCIPAL.CapturaCodigo.precioventa;
 import static PRINCIPAL.CapturaCodigo.utilidad;
 import PRINCIPAL.NuevaOpcion;
 import static ELECTRONICA.V193.incluye;
+import JDBC.Conexion;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -91,9 +93,9 @@ public class V141 extends javax.swing.JFrame {
 
         cblinea.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use noms;");
             rs = st.executeQuery("SELECT * FROM audifonoslinea");
 
@@ -115,43 +117,31 @@ public class V141 extends javax.swing.JFrame {
     public void eliminarelementolista() {
 
         DefaultListModel model2 = (DefaultListModel) lfinal.getModel();
-
         Object elementos = (String) lfinal.getSelectedValue();
-
         int filaseleccionada = lfinal.getSelectedIndex();
         if (filaseleccionada >= 0) {
-
             int selectedIndex = lfinal.getSelectedIndex();
             if (selectedIndex != -1) {
-
                 model2.remove(lfinal.getSelectedIndex());///remueve valor de tabla
             }
-
         } else {
             JOptionPane.showMessageDialog(this, "No ha seleccionado ninguna fila o la tabla está vacía");
         }
-
     }
 
     public void agregarelementolista() {
         DefaultListModel model2 = (DefaultListModel) lincluye.getModel();
         String elementos = (String) lincluye.getSelectedValue();
-
         int filaseleccionada = lincluye.getSelectedIndex();
-
         if (filaseleccionada >= 0) {
-
             modelo.addElement(elementos);///agregar elemento al modelo llfinal
             lfinal.setModel(modelo);
-
             int selectedIndex = lincluye.getSelectedIndex();
             if (selectedIndex != -1) {
                 model2.remove(selectedIndex);///remueve valor de tabla
             }
-
         } else {
             JOptionPane.showMessageDialog(this, "No ha seleccionado ninguna fila o la tabla está vacía");
-
         }
     }
 
@@ -175,9 +165,9 @@ public class V141 extends javax.swing.JFrame {
     public void llenarcolor() {
         cbcolor.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE noms;");
             rs = st.executeQuery("SELECT * FROM colores order by  elemento asc");
 
@@ -200,9 +190,9 @@ public class V141 extends javax.swing.JFrame {
         lincluye.removeAll();
         DefaultListModel modelo = new DefaultListModel();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("SELECT * FROM audifonoincluye order by  elemento asc");
 
@@ -259,9 +249,9 @@ public class V141 extends javax.swing.JFrame {
     public void llenartipo() {
         cbtipo.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("SELECT * FROM audifonotipo order by  elemento asc");
 
@@ -280,9 +270,9 @@ public class V141 extends javax.swing.JFrame {
     public void llenarconectividad() {
         cbconectividad.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+           Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("SELECT * FROM audifonoconexion order by  elemento asc");
 
@@ -356,12 +346,12 @@ public class V141 extends javax.swing.JFrame {
         
         
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            Statement st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
 
-            ps = conexion.prepareStatement("insert into noms1web (codigo,Codigo2,descripcion,nacional,Grupo,descgrupo,Genero,"
+            ps = conn.prepareStatement("insert into noms1web (codigo,Codigo2,descripcion,nacional,Grupo,descgrupo,Genero,"
                     + "descgenero,CostoUni,PrecioVenta,PrecioOferta,Ahorro,Utilidad,Margen,marca,hecho,importador,exportador,"
                     + "FechaAct,categoriaweb,campo1,campo2,campo3,campo4,campo5,campo6,campo7,campo8,campo9,campo10,campo11,campo12)\n"
                     + "VALUES\n"
@@ -377,8 +367,6 @@ public class V141 extends javax.swing.JFrame {
             }
         } catch (HeadlessException | SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos" + ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(V141.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

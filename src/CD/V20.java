@@ -5,6 +5,8 @@
  */
 package CD;
 
+import JDBC.Conexion;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,9 +40,9 @@ public class V20 extends javax.swing.JFrame {
     public void llenargenero() {
         cbgenero.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+         Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("SELECT * FROM cdgenero order by  elemento asc");
 
@@ -59,9 +61,9 @@ public class V20 extends javax.swing.JFrame {
     public void llenargrupo() {
         cbartista.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("SELECT * FROM cdartista order by  elemento asc");
 
@@ -80,9 +82,9 @@ public class V20 extends javax.swing.JFrame {
     public void llenarlinea() {
         cblinea.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+          Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use noms;");
             rs = st.executeQuery("SELECT * FROM cdlinea order by  elemento asc");
 

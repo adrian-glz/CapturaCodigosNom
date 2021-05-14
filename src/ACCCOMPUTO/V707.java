@@ -8,6 +8,7 @@ package ACCCOMPUTO;
 
  
  
+import JDBC.Conexion;
 import PRINCIPAL.CapturaCodigo;
 import static PRINCIPAL.CapturaCodigo.ahorro;
 import static PRINCIPAL.CapturaCodigo.categoriaweb;
@@ -31,6 +32,7 @@ import static PRINCIPAL.CapturaCodigo.utilidad;
 import PRINCIPAL.NuevaOpcion;
  
 import java.awt.HeadlessException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -68,9 +70,9 @@ public final class V707 extends javax.swing.JFrame {
     public void llenarcolor() {
         cbcolor.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("SELECT * FROM colores order by  elemento asc");
 
@@ -91,9 +93,9 @@ public final class V707 extends javax.swing.JFrame {
      public void llenartipo() {
         cbtipo.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+           Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use NOMS;");
             rs = st.executeQuery("select * from RatonPCtipo order by  elemento desc");
 
@@ -113,9 +115,9 @@ public final class V707 extends javax.swing.JFrame {
      public void llenarconexion() {
         cbconexion.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+          Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use NOMS;");
             rs = st.executeQuery("select * from RatonPCConexion order by  elemento desc");
 
@@ -198,25 +200,22 @@ public final class V707 extends javax.swing.JFrame {
 
          String color = cbcolor.getSelectedItem().toString();
         String tipo = cbtipo.getSelectedItem().toString();
-         int g = Integer.parseInt(genero);
+        String conexion = cbconexion.getSelectedItem().toString();
+        int g = Integer.parseInt(genero);
 
-
-                
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            Statement st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
 
-            ps = conexion.prepareStatement("insert into noms1web (codigo,Codigo2,descripcion,nacional,Grupo,descgrupo,Genero,"
+            ps = conn.prepareStatement("insert into noms1web (codigo,Codigo2,descripcion,nacional,Grupo,descgrupo,Genero,"
                     + "descgenero,CostoUni,PrecioVenta,PrecioOferta,Ahorro,Utilidad,Margen,marca,hecho,importador,exportador,FechaAct,categoriaweb,campo1,campo2,campo3,campo4,campo5,campo6,campo7,campo8,campo9,campo10,campo11,campo12)\n"
                     + "VALUES\n"
                     + "('" + codigo + "','" + codigo2 + "','" + descripcion + "','" + Vnacional + "','" + grupo + "','" + descgrupo + "','" + g + "','" + descgenero + "','" + costounitario + "','" + precioventa + "','" + preciooferta + "','" + ahorro + "','" + utilidad + "','" + margen + "','" + marca + "','" + hecho + "','" + importador + "','" + exportador + "',getdate(),'" + categoriaweb + "' "
-                    + ",'" + "TIPO " + tipo + "','" + "COLOR " + color + "','" + "INCLUYE " + incluye + "','"+"CONEXION "+conexion+"','null','null','null','null','null','null','null','null')");
-                 
-//   + ",'" + "TAMAÑO  " + tamano + "','"  +"CONEXION "+   cone + "' ,'"+"COLOR "+color+"','"  + "INCLUYE " + incluye + "','null','null'null','null','null','null','null','null')");
+                    + ",'" + "TIPO " + tipo + "','" + "COLOR " + color + "','" + "INCLUYE " + incluye + "','" + "CONEXION " + conexion + "','null','null','null','null','null','null','null','null')");
 
-            System.out.println(
+          System.out.println(
                     "CODIGO:" + codigo + "\n"
                     + "CODIGO2:" + codigo2 + "\n"
                     + "DESCRIPCION:" + descripcion + "\n"
@@ -250,8 +249,6 @@ public final class V707 extends javax.swing.JFrame {
             }
         } catch (HeadlessException | SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos" + ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(V707.class.getName()).log(Level.SEVERE, null, ex);
         } 
 
     }
@@ -259,23 +256,18 @@ public final class V707 extends javax.swing.JFrame {
     public void variableincluye() {
         int size = lfinal.getModel().getSize();
         StringBuilder c = new StringBuilder();
-
         for (int i = 0; i < size; i++) {
             c.append(lfinal.getModel().getElementAt(i) + ",");
         }
         String cadena = c.toString();
-       try {
-            if(cadena.length()>2){
-            
-            cadena = cadena.substring(0, cadena.length() - 1);
-            incluye = cadena.trim();//funcion eliminaespacios
+        try {
+            if (cadena.length() > 2) {
+                cadena = cadena.substring(0, cadena.length() - 1);
+                incluye = cadena.trim();//funcion eliminaespacios
+            } else {
+                incluye = "NO APLICA";
             }
-            else{
-             incluye="NO APLICA";
-            }
-            
-            
-            } catch (Exception e) {
+        } catch (Exception e) {
             cadena = "NO APLICA";
         }
     }
@@ -285,9 +277,9 @@ public final class V707 extends javax.swing.JFrame {
         lincluye.removeAll();
         DefaultListModel modelo = new DefaultListModel();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("SELECT * FROM RatonPCIncluye order by  elemento asc");
 
@@ -301,20 +293,7 @@ public final class V707 extends javax.swing.JFrame {
             return;
         }
 
-    }
-
-
-    
-    
-    
-    
-    
-    
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
+    } 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -497,7 +476,7 @@ public final class V707 extends javax.swing.JFrame {
 
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
         int result = JOptionPane.showConfirmDialog(null, "seguro que quieres capturar el codigo?", "ATENCION",
-                    JOptionPane.YES_NO_OPTION,
+                JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
         if (result == JOptionPane.YES_OPTION) {
@@ -521,7 +500,6 @@ public final class V707 extends javax.swing.JFrame {
 
     private void btnrefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrefrescarActionPerformed
         llenarcolor();
-    
         llenartipo();
         llenarlistaincluye();
     }//GEN-LAST:event_btnrefrescarActionPerformed

@@ -80,6 +80,7 @@ import ACCELECTRONICA.V541;
 import ACCELECTRONICA.V542;
 import ACCELECTRONICA.V99;
 import CD.V20;
+import JDBC.Conexion;
 import com.mxrck.autocompleter.AutoCompleterCallback;
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.awt.Color;
@@ -89,6 +90,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -715,9 +717,9 @@ public class CapturaCodigo extends javax.swing.JFrame {
     public void ayudaboton() {
 
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+          Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use noms;");
             rs = st.executeQuery("select * from ayudausuario where id=1");
 
@@ -767,9 +769,9 @@ public class CapturaCodigo extends javax.swing.JFrame {
 
     public void existecodigo() {
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+          Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use noms");
             rs = st.executeQuery("select codigo from noms1web where codigo='" + txt_id.getText() + "'");
             boolean variable = rs.next();
@@ -787,17 +789,15 @@ public class CapturaCodigo extends javax.swing.JFrame {
             }
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CapturaCodigo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void recuperarcampos() {
 
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+           Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use cml");
 
             //Seleccionar datos
@@ -820,7 +820,7 @@ public class CapturaCodigo extends javax.swing.JFrame {
                     + "getdate() as FechaAct,\n"
                     + "(select top 1 categories_id from codigos_to_categories where codigo=c.codigo order by fecha_alta desc) as CATEGORIA\n"
                     + "from codigos c, codigos_info ci\n"
-                    + "where c.codigo=ci.codigo and c.codigo='" + txt_id.getText() + "'");
+                    + "where c.codigo=ci.codigo and c.codigo='" + txt_id.getText().trim() + "'");
 
             while (rs.next()) {
                 DecimalFormat df = new DecimalFormat("#0.00");
@@ -889,16 +889,10 @@ public class CapturaCodigo extends javax.swing.JFrame {
                 txt_marca.setText(marca);
                 txt_hecho.setText(hecho);
                 txt_categoriaweb.setText(categoriaweb);
-
-                //    System.out.println("RESULTADO"+codigo+codigo2+descripcion+nacional+grupo+descgrupo+genero+descgenero+
-                //  costounitario+precioventa+preciooferta+utilidad+margen+marca+hecho);
-            }
+    }
 
         } catch (HeadlessException | SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CapturaCodigo.class.getName()).log(Level.SEVERE, null, ex);
-
         }
         //System.out.println("IMPRESION EN CODIGO"+codigo); 
     }
@@ -1273,7 +1267,6 @@ public class CapturaCodigo extends javax.swing.JFrame {
                 System.out.println("error2"); // hacer algo
             }
         } else {
-
             JOptionPane.showMessageDialog(rootPane, "Capture un codigo valido");
         }
 

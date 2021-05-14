@@ -1,4 +1,6 @@
 package ACCCOMPUTO;
+
+import JDBC.Conexion;
 import PRINCIPAL.CapturaCodigo;
 import static PRINCIPAL.CapturaCodigo.ahorro;
 import static PRINCIPAL.CapturaCodigo.categoriaweb;
@@ -21,6 +23,7 @@ import static PRINCIPAL.CapturaCodigo.precioventa;
 import static PRINCIPAL.CapturaCodigo.utilidad;
 import PRINCIPAL.NuevaOpcion;
 import java.awt.HeadlessException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,8 +42,9 @@ import javax.swing.JOptionPane;
  * @author AGONZALEZ
  */
 public class V77 extends javax.swing.JFrame {
+
     Statement st;
-    
+
     PreparedStatement ps = null;
     ResultSet rs;
     int Vnacional;
@@ -60,9 +64,9 @@ public class V77 extends javax.swing.JFrame {
     public void llenarcolor() {
         cbcolor.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+           Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("SELECT * FROM colores order by  elemento ASC");
 
@@ -81,9 +85,9 @@ public class V77 extends javax.swing.JFrame {
     public void llenarmah() {
         cbmah.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+         Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("SELECT * FROM PowerBankMAHM order by  elemento ASC");
 
@@ -99,12 +103,13 @@ public class V77 extends javax.swing.JFrame {
         }
 
     }
+
     public void llenartamano() {
         cbtamano.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+          Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("SELECT * FROM PowerBankTamano order by  elemento DESC");
 
@@ -121,8 +126,6 @@ public class V77 extends javax.swing.JFrame {
 
     }
 
- 
-    
     public void comparacionnacional() {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SS");
@@ -140,41 +143,29 @@ public class V77 extends javax.swing.JFrame {
     public void agregarelementolista() {
         DefaultListModel model2 = (DefaultListModel) lincluye.getModel();
         String elementos = (String) lincluye.getSelectedValue();
-
         int filaseleccionada = lincluye.getSelectedIndex();
-
         if (filaseleccionada >= 0) {
-
             modelo.addElement(elementos);///agregar elemento al modelo llfinal
             lfinal.setModel(modelo);
-
             int selectedIndex = lincluye.getSelectedIndex();
             if (selectedIndex != -1) {
                 model2.remove(selectedIndex);///remueve valor de tabla
             }
-
         } else {
             JOptionPane.showMessageDialog(this, "No ha seleccionado ninguna fila o la tabla está vacía");
-
         }
     }
 
     public void eliminarelementolista() {
 
         DefaultListModel model2 = (DefaultListModel) lfinal.getModel();
-
         Object elementos = (String) lfinal.getSelectedValue();
-
         int filaseleccionada = lfinal.getSelectedIndex();
-        //  System.out.println("fila>>"+filaseleccionada);
         if (filaseleccionada >= 0) {
-            //   modelo.addElement(elementos);///agregar elemento al modelo llfinal
-            ///   lincluye.setModel(modelo); System.out.println(">>>>>>"+elementos);
             int selectedIndex = lfinal.getSelectedIndex();
             if (selectedIndex != -1) {
                 model2.remove(lfinal.getSelectedIndex());///remueve valor de tabla
             }
-
         } else {
             JOptionPane.showMessageDialog(this, "No ha seleccionado ninguna fila o la tabla está vacía");
             //    System.out.println(" dick de ");
@@ -192,19 +183,18 @@ public class V77 extends javax.swing.JFrame {
         int g = Integer.parseInt(genero);
 
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            Statement st = conexion.createStatement();
+         Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
 
-            ps = conexion.prepareStatement("insert into noms1web (codigo,Codigo2,descripcion,nacional,Grupo,descgrupo,Genero,"
+            ps = conn.prepareStatement("insert into noms1web (codigo,Codigo2,descripcion,nacional,Grupo,descgrupo,Genero,"
                     + "descgenero,CostoUni,PrecioVenta,PrecioOferta,Ahorro,Utilidad,Margen,marca,hecho,importador,exportador,FechaAct,categoriaweb,campo1,campo2,campo3,campo4,campo5,campo6,campo7,campo8,campo9,campo10,campo11,campo12)\n"
                     + "VALUES\n"
                     + "('" + codigo + "','" + codigo2 + "','" + descripcion + "','" + Vnacional + "','" + grupo + "','" + descgrupo + "','" + g + "','" + descgenero + "','" + costounitario + "','" + precioventa + "','" + preciooferta + "','" + ahorro + "','" + utilidad + "','" + margen + "','" + marca + "','" + hecho + "','" + importador + "','" + exportador + "',getdate(),'" + categoriaweb + "' ,"
-                    + "'" +"CAPACIDAD DE LA BATERIA "+ mah + "','" +"TAMAÑO "+ tamano + "','" +"COLOR "+ color + "','" +"INCLUYE "+ incluye + "','null','null','null','null','null','null','null','null')");
-            
-       //     System.out.println(mah+tamano+color+incluye);
-            
+                    + "'" + "CAPACIDAD DE LA BATERIA " + mah + "','" + "TAMAÑO " + tamano + "','" + "COLOR " + color + "','" + "INCLUYE " + incluye + "','null','null','null','null','null','null','null','null')");
+
+            //     System.out.println(mah+tamano+color+incluye);
             int n = ps.executeUpdate();
             if (n > 0) {
                 JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente!");
@@ -212,12 +202,10 @@ public class V77 extends javax.swing.JFrame {
             }
         } catch (HeadlessException | SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos" + ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(V77.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
- 
+
     public void variableincluye() {
         int size = lfinal.getModel().getSize();
         StringBuilder c = new StringBuilder();
@@ -246,9 +234,9 @@ public class V77 extends javax.swing.JFrame {
         lincluye.removeAll();
         DefaultListModel modelo = new DefaultListModel();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("SELECT * FROM PowerBankIncluye order by  elemento ASC");
 
@@ -263,7 +251,7 @@ public class V77 extends javax.swing.JFrame {
         }
 
     }
- 
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -449,11 +437,11 @@ public class V77 extends javax.swing.JFrame {
     }//GEN-LAST:event_btnpasalistaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         eliminarelementolista();
+        eliminarelementolista();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void lincluyeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lincluyeMouseClicked
-          if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) {
             agregarelementolista();
         }
     }//GEN-LAST:event_lincluyeMouseClicked
@@ -461,7 +449,7 @@ public class V77 extends javax.swing.JFrame {
     private void lfinalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lfinalMouseClicked
         if (evt.getClickCount() == 2) {
             eliminarelementolista();
-        }  
+        }
     }//GEN-LAST:event_lfinalMouseClicked
 
     private void btnregresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregresarActionPerformed
@@ -476,9 +464,8 @@ public class V77 extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnagregarActionPerformed
 
-   
     public static void main(String args[]) {
-    
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
@@ -495,7 +482,7 @@ public class V77 extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(V77.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

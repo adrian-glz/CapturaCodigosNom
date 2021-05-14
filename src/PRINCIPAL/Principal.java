@@ -1,12 +1,8 @@
 package PRINCIPAL;
 
-import CodigoPOJO.CodigoPOJO;
 import JDBC.Conexion;
-import JDBC.PersonaJDBC;
-import com.mxrck.autocompleter.AutoCompleterCallback;
-import com.mxrck.autocompleter.TextAutoCompleter;
-import java.awt.Color;
 import java.awt.HeadlessException;
+import java.awt.event.ItemEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -35,7 +31,7 @@ public class Principal extends javax.swing.JFrame {
     Statement st;
     PreparedStatement ps = null;
     ResultSet rs;
-    String generoid, grupoid, proveedorid;
+    String generoid, grupoid, proveedorid,marcaid;
 
     public Principal() {
 
@@ -45,57 +41,42 @@ public class Principal extends javax.swing.JFrame {
         TextPrompt codigoproveedort = new TextPrompt("Codigo Proveedor o fisico", txtcodigoproveedor);
         TextPrompt codigobarrast = new TextPrompt("Codigo de barras", txtcodigobarras);
         TextPrompt descripciont = new TextPrompt("Descripcion", txtdescripcion);
-        //  TextPrompt procedencia = new TextPrompt("Procedencia", txtcodigosounds);
-
+        TextPrompt peso = new TextPrompt("Peso", txtpeso);
         llenargeneros();
+        llenarorigen();
         llenargrupos();
         llenarfamilia();
         llenarproveedor();
+        llenarmarca();
         AutoCompleteDecorator.decorate(jcgenero);
         AutoCompleteDecorator.decorate(jcgrupo);
         AutoCompleteDecorator.decorate(jcproveedor);
-        llenartablacategorias();
+        AutoCompleteDecorator.decorate(jcmarca);
         GregorianCalendar gg = new GregorianCalendar();
         SimpleDateFormat dd = new SimpleDateFormat("yyyy/MM/dd");
         String fechadisplay = dd.format(gg.getTime());
         lblfecha.setText(fechadisplay);
         txtcodigosounds.requestFocusInWindow();
         jpanelcostos.setVisible(false);
+        jpanelcategorias.setVisible(false);
         btngenerar.setEnabled(false);
         btngenerar.setVisible(false);
 
-        /*  textAutoCompleter = new TextAutoCompleter(txtgenero, new AutoCompleterCallback() {
-         @Override
-         public void callback(Object o) {
-         Object a = textAutoCompleter.findItem(o);
-         CodigoPOJO personaPOJO = (CodigoPOJO) a;
-         }
-         });
-         PersonaJDBC.cargargeneros(textAutoCompleter);
-         textAutoCompleter = new TextAutoCompleter(txtgrupos, new AutoCompleterCallback() {
-         @Override
-         public void callback(Object o) {
-         Object a = textAutoCompleter.findItem(o);
-         CodigoPOJO personaPOJO = (CodigoPOJO) a;
-         }
-         });
-
-         PersonaJDBC.cargargrupos(textAutoCompleter);*/
     }
 
     public void llenartablacategorias() {
+
         TableColumn testColumn = jtcategorias.getColumnModel().getColumn(0);
 
-        JComboBox<String> jccategories = new JComboBox<>();
+        JComboBox <String> jccategories = new JComboBox<>();
         AutoCompleteDecorator.decorate(jccategories);
-
         try {
             Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("use cml;");
-            rs = st.executeQuery("select * from categories order by categories_id ASC");
-            // rs = st.executeQuery("select * from categories where parent_id ='"++"'order by categories_id ASC");
+            rs = st.executeQuery("select distinct cid.categories_id, cid.categories_name_espanol from codigos c, codigos_to_categories ctc, categories cid\n"
+                    + "where c.codigo=ctc.codigo and cid.categories_id=ctc.categories_id and c.genero='" + generoid + "'");
 
             while (rs.next()) {
                 String elemento = rs.getString("categories_id").trim() + " " + rs.getString("categories_name_espanol").trim();
@@ -112,14 +93,12 @@ public class Principal extends javax.swing.JFrame {
 
     public void llenarfamilia() {
         //  jcfamilia.removeAllItems();
-
         try {
             Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("use noms;");
             rs = st.executeQuery("select * from similares order by elemento ASC");
-
             while (rs.next()) {
                 String elemento = rs.getString("elemento").trim();
                 jcfamilia.addItem(elemento);
@@ -139,14 +118,11 @@ public class Principal extends javax.swing.JFrame {
 
     public void llenarproveedor() {
         jcproveedor.removeAllItems();
-
         try {
             Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
-
             rs = st.executeQuery("select * from proveedores order by descripcion asc");
-
             while (rs.next()) {
                 String elemento = rs.getString("descripcion").trim();
                 jcproveedor.addItem(elemento);
@@ -161,14 +137,11 @@ public class Principal extends javax.swing.JFrame {
 
     public void llenargeneros() {
         jcgenero.removeAllItems();
-
         try {
             Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
-
             rs = st.executeQuery("select * from generos order by descripcion asc");
-
             while (rs.next()) {
                 String elemento = rs.getString("descripcion").trim();
                 jcgenero.addItem(elemento);
@@ -183,7 +156,6 @@ public class Principal extends javax.swing.JFrame {
 
     public void llenarcategories() {
         jcgrupo.removeAllItems();
-
         try {
             Conexion con = new Conexion();
             Connection conn = con.getConnection();
@@ -205,7 +177,6 @@ public class Principal extends javax.swing.JFrame {
 
     public void llenargrupos() {
         jcgrupo.removeAllItems();
-
         try {
             Conexion con = new Conexion();
             Connection conn = con.getConnection();
@@ -224,7 +195,49 @@ public class Principal extends javax.swing.JFrame {
             return;
         }
     }
-//////////////////////////////////////////////////////////////////////
+
+    public void llenarmarca() {
+        jcmarca.removeAllItems();
+        try {
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
+
+            rs = st.executeQuery("select * from marcas order by marca_id asc");
+
+            while (rs.next()) {
+                String elemento = rs.getString("marca_descripcion").trim();
+                jcmarca.addItem(elemento);
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    public void llenarorigen() {
+        jcorigen.removeAllItems();
+        try {
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
+
+            rs = st.executeQuery("select * from origen order by origen_descripcion");
+            jcorigen.addItem("CHINA");
+            while (rs.next()) {
+                String elemento = rs.getString("origen_descripcion").trim();
+
+                jcorigen.addItem(elemento);
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    }
 
     public void obtenidgenero() {
         String g = jcgenero.getSelectedItem().toString().trim();
@@ -280,6 +293,42 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
+    public void obtenidmarca() {
+        String g = jcgrupo.getSelectedItem().toString().trim();
+        try {
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
+            rs = st.executeQuery("select marca_id from marcas where marca_descripcion ='" + g + "'");
+            while (rs.next()) {
+                marcaid = rs.getString("marca_id").trim();
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    }
+
+    public void obtenidorigen() {
+        String g = jcgrupo.getSelectedItem().toString().trim();
+        try {
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
+            rs = st.executeQuery("select origen_id from origen where origen_descripcion ='" + g + "'");
+            while (rs.next()) {
+                marcaid = rs.getString("origen_id").trim();
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -316,9 +365,18 @@ public class Principal extends javax.swing.JFrame {
         txtPrecioventa = new javax.swing.JTextField();
         txtCosto = new javax.swing.JTextField();
         btnagregarfamilia = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jpanelcategorias = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtcategorias = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jcmarca = new javax.swing.JComboBox();
+        txtpeso = new javax.swing.JTextField();
+        lblpeso = new javax.swing.JLabel();
+        checknovedad = new javax.swing.JCheckBox();
+        jcorigen = new javax.swing.JComboBox();
+        jLabel12 = new javax.swing.JLabel();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Captura codigo nuevo");
@@ -357,6 +415,11 @@ public class Principal extends javax.swing.JFrame {
 
         jcgenero.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcgenero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jcgenero.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcgeneroItemStateChanged(evt);
+            }
+        });
         getContentPane().add(jcgenero, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 210, 30));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -380,8 +443,8 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(lbldescripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 15, 130, -1));
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel5.setText("Proveedor");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 65, -1, -1));
+        jLabel5.setText("Origen");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 115, -1, -1));
 
         jcproveedor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcproveedor.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -403,7 +466,7 @@ public class Principal extends javax.swing.JFrame {
                 btnayudaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnayuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 20, 60, 50));
+        getContentPane().add(btnayuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 310, 70, 50));
 
         txtcodigosounds.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtcodigosounds.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -424,7 +487,7 @@ public class Principal extends javax.swing.JFrame {
                 btngenerarActionPerformed(evt);
             }
         });
-        getContentPane().add(btngenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 270, 390, 40));
+        getContentPane().add(btngenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 280, 280, 40));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Procedencia");
@@ -443,7 +506,7 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(jcfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, 30));
 
         lblfecha.setText("  ");
-        getContentPane().add(lblfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 340, 80, 20));
+        getContentPane().add(lblfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 340, 80, 20));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Clave Apartado");
@@ -458,11 +521,11 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel10.setText("Precio Venta:");
-        jpanelcostos.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 80, 30));
+        jpanelcostos.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 55, 80, 30));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel11.setText("Costo:");
-        jpanelcostos.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 40, 30));
+        jpanelcostos.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 40, 30));
 
         txtPrecioventa.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtPrecioventa.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -470,7 +533,7 @@ public class Principal extends javax.swing.JFrame {
                 txtPrecioventaKeyTyped(evt);
             }
         });
-        jpanelcostos.add(txtPrecioventa, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 160, 30));
+        jpanelcostos.add(txtPrecioventa, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 55, 160, 30));
 
         txtCosto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCosto.addActionListener(new java.awt.event.ActionListener() {
@@ -483,13 +546,24 @@ public class Principal extends javax.swing.JFrame {
                 txtCostoKeyTyped(evt);
             }
         });
-        jpanelcostos.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 160, 30));
+        jpanelcostos.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(95, 20, 160, 30));
 
         getContentPane().add(jpanelcostos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 260, 90));
 
         btnagregarfamilia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/123.png"))); // NOI18N
         btnagregarfamilia.setContentAreaFilled(false);
-        getContentPane().add(btnagregarfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 133, 20, 20));
+        getContentPane().add(btnagregarfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(417, 134, 20, 20));
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 310, -1, -1));
+
+        jpanelcategorias.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jpanelcategorias.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jtcategorias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -498,25 +572,64 @@ public class Principal extends javax.swing.JFrame {
                 {null}
             },
             new String [] {
-                "Categorias"
+                ""
             }
         ));
-        jtcategorias.setRowHeight(20);
+        jtcategorias.setRowHeight(18);
+        jtcategorias.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jtcategoriasMouseEntered(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtcategorias);
         if (jtcategorias.getColumnModel().getColumnCount() > 0) {
             jtcategorias.getColumnModel().getColumn(0).setResizable(false);
             jtcategorias.getColumnModel().getColumn(0).setPreferredWidth(80);
         }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, 240, 90));
+        jpanelcategorias.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 15, 210, 70));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        getContentPane().add(jpanelcategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 170, 220, 90));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel9.setText("Proveedor");
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 65, -1, -1));
+
+        jcmarca.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jcmarca.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(jcmarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 80, 140, 30));
+
+        txtpeso.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtpeso.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtpesoKeyTyped(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 180, -1, -1));
+        getContentPane().add(txtpeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 30, 100, 30));
+
+        lblpeso.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblpeso.setText("  ");
+        getContentPane().add(lblpeso, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 15, 80, -1));
+
+        checknovedad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        checknovedad.setText("Novedad");
+        getContentPane().add(checknovedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, 100, 30));
+
+        jcorigen.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jcorigen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(jcorigen, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 130, 140, 30));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel12.setText("Marca");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 65, -1, -1));
+
+        jToggleButton1.setText("jToggleButton1");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 230, -1, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -528,7 +641,6 @@ public class Principal extends javax.swing.JFrame {
         } else {
             lblproveedor.setText("");
         }
-
         mostrarpanelcostos();
     }//GEN-LAST:event_txtcodigoproveedorKeyTyped
 
@@ -538,7 +650,6 @@ public class Principal extends javax.swing.JFrame {
         } else {
             lblcodigobarras.setText("");
         }
-
         mostrarpanelcostos();
     }//GEN-LAST:event_txtcodigobarrasKeyTyped
 
@@ -548,16 +659,20 @@ public class Principal extends javax.swing.JFrame {
         } else {
             lbldescripcion.setText("");
         }
-
         mostrarpanelcostos();
     }//GEN-LAST:event_txtdescripcionKeyTyped
 
     private void btnayudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnayudaActionPerformed
-        JOptionPane.showMessageDialog(null, "Informacion de estatus:\n"
+        JOptionPane.showMessageDialog(null, "Informacion  \n"
                 + "A=ACTIVO\n"
                 + "D=DESCATALOGADO\n"
-                + "C=CANCELADO");
+                + "C=CANCELADO\n"
+                + "Peso estandar en decimales ejemplo 1 Kilogramo = 1.00 "
+        
+        
+        );
     }//GEN-LAST:event_btnayudaActionPerformed
+  
     public void mostrarpanelcostos() {
         if (txtcodigosounds.getText().length() > 0
                 & txtcodigoproveedor.getText().length() > 0
@@ -565,11 +680,13 @@ public class Principal extends javax.swing.JFrame {
                 & txtdescripcion.getText().length() > 0) {
             jpanelcostos.setVisible(true);
             btngenerar.setVisible(true);
+            jpanelcategorias.setVisible(true);
         } else {
             jpanelcostos.setVisible(false);
-
+            jpanelcategorias.setVisible(false);
         }
     }
+    
     private void txtcodigosoundsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcodigosoundsKeyTyped
         if (txtcodigosounds.getText().length() > 0) {
             lblcodigosounds.setText("Codigo Sounds");
@@ -577,7 +694,7 @@ public class Principal extends javax.swing.JFrame {
             lblcodigosounds.setText("");
         }
         mostrarpanelcostos();
-// TODO add your handling code here:
+
     }//GEN-LAST:event_txtcodigosoundsKeyTyped
 
     private void btngenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngenerarActionPerformed
@@ -618,12 +735,11 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCostoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        for (int x = 0; x < jtcategorias.getRowCount(); x++) {
+       /* for (int x = 0; x < jtcategorias.getRowCount(); x++) {
 
             try {
 
                 String vcodigo = ((String) jtcategorias.getValueAt(x, 0).toString());//obtener valor de precio
-                //  String vc= vcodigo.replaceAll("[^0-1-2-3-4-5-6-7-8-9-.00]", "");//dejameos solo los elementos"[^0-1-2-3-4-5-6-7-8-9-.00]"
                 String singuiones = vcodigo.replaceAll("[^0-1-2-3-4-5-6-7-8-9-.00]", "");//dejameos solo los elementos"[^0-1-2-3-4-5-6-7-8-9-.00]"
                 String vfinal = singuiones.replaceAll("[-]", "");//dejameos solo los elementos"[^0-1-2-3-4-5-6-7-8-9-.00]"
 
@@ -635,16 +751,63 @@ public class Principal extends javax.swing.JFrame {
             } catch (HeadlessException ex) {
                 JOptionPane.showMessageDialog(rootPane, "Error en la base de datos 901" + ex);
             }
-        }
+        }*/
+       // JOptionPane.showMessageDialog(this, "Text goes here", "About", JOptionPane.INFORMATION_MESSAGE);
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jcgeneroItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcgeneroItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            //  obtenidgenero();
+            //  llenartablacategorias();
+        }
+    }//GEN-LAST:event_jcgeneroItemStateChanged
+
+    private void jtcategoriasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtcategoriasMouseEntered
+        obtenidgenero();
+        llenartablacategorias();
+    }//GEN-LAST:event_jtcategoriasMouseEntered
+
+    private void txtpesoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtpesoKeyTyped
+        if (txtpeso.getText().length() > 0) {
+            lblpeso.setText("Peso");
+        } else {
+            lblpeso.setText("");
+        }
+        mostrarpanelcostos();
+    }//GEN-LAST:event_txtpesoKeyTyped
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+
+        jcmarca.removeAllItems();
+        try {
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
+
+            rs = st.executeQuery("select * from marcas order by marca_id asc");
+
+            while (rs.next()) {
+                String elemento = rs.getString("marca_descripcion").trim();
+                jcmarca.addItem(elemento);
+            }
+            st.close();
+        } catch (Exception e) {
+            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     public void ExisteCodigo() {//comprobar 
 
         ////evento para buscar codigo
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://" + "192.168.1.80:55024" + "", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
 
             rs = st.executeQuery("select codigo, descripcion, grupo, precioventa from codigos where codigo='" + txtcodigosounds.getText() + "' or codigo2='" + txtcodigosounds.getText() + "'");
             //  System.out.println(">>>"+sucursalglobal);
@@ -653,11 +816,9 @@ public class Principal extends javax.swing.JFrame {
             String s1 = Boolean.toString(friv);
             try {
                 if (s1.equals("true")) {
-
                     while (rs.next()) {
                     }
                     JOptionPane.showMessageDialog(null, "El codigo ya existe, intente con otro", "Alerta", JOptionPane.WARNING_MESSAGE);
-
                 } else {
                     //PROCEDEMOS
                     insertacodigo();
@@ -667,15 +828,12 @@ public class Principal extends javax.swing.JFrame {
             }
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
     public void insertacodigo() {
 
-        // String apartado="";
         String codigosounds = txtcodigosounds.getText().trim();
         String codigoproveedor = txtcodigoproveedor.getText().trim();
         String codigobarras = txtcodigobarras.getText().trim();
@@ -729,7 +887,7 @@ public class Principal extends javax.swing.JFrame {
             //  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
             if (n > 0) {
                 JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente!");
-                System.out.println("¡Los datos han sido guardados exitósamente!" + n);
+                //  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
                 CapturaCodigo c = new CapturaCodigo();
                 c.txt_id.setText(codigosounds);
                 this.dispose();
@@ -786,10 +944,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnagregarfamilia;
     private javax.swing.JButton btnayuda;
     private javax.swing.JButton btngenerar;
+    private javax.swing.JCheckBox checknovedad;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -797,20 +957,26 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JComboBox jcapartado;
     private javax.swing.JComboBox jcestatus;
     private javax.swing.JComboBox jcfamilia;
     private javax.swing.JComboBox jcgenero;
     private javax.swing.JComboBox jcgrupo;
+    private javax.swing.JComboBox jcmarca;
+    private javax.swing.JComboBox jcorigen;
     private javax.swing.JComboBox jcprocedencia;
     private javax.swing.JComboBox jcproveedor;
+    private javax.swing.JPanel jpanelcategorias;
     private javax.swing.JPanel jpanelcostos;
     private javax.swing.JTable jtcategorias;
     private javax.swing.JLabel lblcodigobarras;
     private javax.swing.JLabel lblcodigosounds;
     private javax.swing.JLabel lbldescripcion;
     private javax.swing.JLabel lblfecha;
+    private javax.swing.JLabel lblpeso;
     private javax.swing.JLabel lblproveedor;
     private javax.swing.JTextField txtCosto;
     private javax.swing.JTextField txtPrecioventa;
@@ -818,5 +984,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField txtcodigoproveedor;
     public static javax.swing.JTextField txtcodigosounds;
     private javax.swing.JTextField txtdescripcion;
+    private javax.swing.JTextField txtpeso;
     // End of variables declaration//GEN-END:variables
 }
