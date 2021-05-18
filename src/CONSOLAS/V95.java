@@ -27,20 +27,16 @@ import static PRINCIPAL.CapturaCodigo.preciooferta;
 import static PRINCIPAL.CapturaCodigo.precioventa;
 import static PRINCIPAL.CapturaCodigo.utilidad;
 import PRINCIPAL.NuevaOpcion;
-import static ACCELECTRONICA.V44.incluye;
 import JDBC.Conexion;
  
 import java.awt.HeadlessException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -59,17 +55,17 @@ public class V95 extends javax.swing.JFrame {
 
     public V95() {
         initComponents();
-      
-        lblcodigo.setText(codigo);  
+
+        lblcodigo.setText(codigo);
         llenarcolor();
         llenarhdd();
         llenarlistaincluye();
-     }
+    }
 
     public void llenarcolor() {
         cbcolor.removeAllItems();
         try {
-          Conexion con = new Conexion();
+            Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
@@ -86,11 +82,11 @@ public class V95 extends javax.swing.JFrame {
             return;
         }
     }
- 
+
     public void llenarhdd() {
         cbhdd.removeAllItems();
         try {
-          Conexion con = new Conexion();
+            Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("USE noms;");
@@ -107,7 +103,7 @@ public class V95 extends javax.swing.JFrame {
             return;
         }
     }
- 
+
     public void comparacionnacional() {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SS");
@@ -164,7 +160,7 @@ public class V95 extends javax.swing.JFrame {
 
         } else {
             JOptionPane.showMessageDialog(this, "No ha seleccionado ninguna fila o la tabla está vacía");
-         //   System.out.println(" dick de ");
+            //   System.out.println(" dick de ");
         }
 
     }
@@ -173,40 +169,39 @@ public class V95 extends javax.swing.JFrame {
         variableincluye();
         comparacionnacional();
 
-         String color = cbcolor.getSelectedItem().toString();
-         String hdd = cbhdd.getSelectedItem().toString();
+        String color = cbcolor.getSelectedItem().toString();
+        String hdd = cbhdd.getSelectedItem().toString();
         String incluyev = cbincluyev.getSelectedItem().toString();
-         
+
         int g = Integer.parseInt(genero);
-        
+
         if (incluyev.equals("SI")) {
-                    incluyev = "INCLUYE VIDEOJUEGO";                   
-                }
-                if (incluyev.equals("NO")) {
-                    incluyev = "NO INCLUYE VIDEOJUEGO";
-                }
+            incluyev = "INCLUYE VIDEOJUEGO";
+        }
+        if (incluyev.equals("NO")) {
+            incluyev = "NO INCLUYE VIDEOJUEGO";
+        }
 
         try {
-           Conexion con = new Conexion();
+            Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
 
-    ps = conn.prepareStatement("insert into noms1web (codigo,Codigo2,descripcion,nacional,Grupo,descgrupo,Genero,"
+            ps = conn.prepareStatement("insert into noms1web (codigo,Codigo2,descripcion,nacional,Grupo,descgrupo,Genero,"
                     + "descgenero,CostoUni,PrecioVenta,PrecioOferta,Ahorro,Utilidad,Margen,marca,hecho,importador,exportador,FechaAct,categoriaweb,campo1,campo2,campo3,campo4,campo5,campo6,campo7,campo8,campo9,campo10,campo11,campo12)\n"
                     + "VALUES\n"
                     + "('" + codigo + "','" + codigo2 + "','" + descripcion + "','" + Vnacional + "','" + grupo + "','" + descgrupo + "','" + g + "','" + descgenero + "','" + costounitario + "','" + precioventa + "','" + preciooferta + "','" + ahorro + "','" + utilidad + "','" + margen + "','" + marca + "','" + hecho + "','" + importador + "','" + exportador + "',getdate(),'" + categoriaweb + "' "
-            + ",'" +"ALMACENAMIENTO "+ hdd + "','" + incluyev + "','" +"COLOR "+ color + "','" +"INCLUYE "+ incluye + "','null','null','null','null','null','null','null','null')");
-         
- 
-         System.out.println( 
-                 "CODIGO:"+ codigo +"\n"
-                 +"CODIGO2:"+codigo2+"\n"     
-                 +"DESCRIPCION:"+descripcion+"\n"   
-                 +"NACIONAL:"+Vnacional+"\n"
-                 +"GRUPO:"+grupo+"\n"       
-                 +"DESCRIPCION GRUPO:"+descgrupo+"\n"
-                 +"# GENERO:"+g+"\n"
+                    + ",'" + "ALMACENAMIENTO " + hdd + "','" + incluyev + "','" + "COLOR " + color + "','" + "INCLUYE " + incluye + "','null','null','null','null','null','null','null','null')");
+
+            System.out.println(
+                    "CODIGO:" + codigo + "\n"
+                    + "CODIGO2:" + codigo2 + "\n"
+                    + "DESCRIPCION:" + descripcion + "\n"
+                    + "NACIONAL:" + Vnacional + "\n"
+                    + "GRUPO:" + grupo + "\n"
+                    + "DESCRIPCION GRUPO:" + descgrupo + "\n"
+                    + "# GENERO:" + g + "\n"
                     + "DESCRIPCION GENERO:" + descgenero + "\n"
                     + "COSTO UNITARIO:" + costounitario + "\n"
                     + "PRECIO VENTA:" + precioventa + "\n"
@@ -219,16 +214,14 @@ public class V95 extends javax.swing.JFrame {
                     + "IMPORTADOR:" + importador + "\n"
                     + "EXPORTADOR:" + exportador + "\n"
                     + "CAT WEB:" + categoriaweb + "\n"
-             //       + "MULTIFUNCIONAL:" + multifuncional + "\n"
-               //     + "VELOCIDAD:" + velocidad + "\n"
-//                    + "CONECTIVIDAD:" + conectividad + "\n"
+                    //       + "MULTIFUNCIONAL:" + multifuncional + "\n"
+                    //     + "VELOCIDAD:" + velocidad + "\n"
+                    //                    + "CONECTIVIDAD:" + conectividad + "\n"
                     + "COLOR:" + color + "\n"
                     + "INCLUYE:" + incluye + "\n"
             );
-         
+
 //   System.out.println( ""+ codigo     ,codigo2     ,  descripcion    ,   Vnacional   ,    grupo,       descgrupo    ,   g     ,  descgenero  ,     costounitario ,      precioventa ,      preciooferta    ,   ahorro      , utilidad   ,    margen    ,   marca  ,     hecho  ,     importador      , exportador ,     categoriaweb ,     multifuncional    ,   velocidad    ,   conectividad    ,   color     ,  incluye);
-         
-            
             int n = ps.executeUpdate();
             if (n > 0) {
                 JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente!");
@@ -241,7 +234,7 @@ public class V95 extends javax.swing.JFrame {
     }
 
     public void variableincluye() {
-          int size = lfinal.getModel().getSize();
+        int size = lfinal.getModel().getSize();
         StringBuilder c = new StringBuilder();
 
         for (int i = 0; i < size; i++) {
@@ -249,17 +242,15 @@ public class V95 extends javax.swing.JFrame {
         }
         String cadena = c.toString();
         try {
-            if(cadena.length()>2){
-            
-            cadena = cadena.substring(0, cadena.length() - 1);
-            incluye = cadena.trim();//funcion eliminaespacios
+            if (cadena.length() > 2) {
+
+                cadena = cadena.substring(0, cadena.length() - 1);
+                incluye = cadena.trim();//funcion eliminaespacios
+            } else {
+                incluye = "NO APLICA";
             }
-            else{
-             incluye="NO APLICA";
-            }
-            
-            
-            } catch (Exception e) {
+
+        } catch (Exception e) {
             cadena = "NO APLICA";
         }
 
@@ -270,7 +261,7 @@ public class V95 extends javax.swing.JFrame {
         lincluye.removeAll();
         DefaultListModel modelo = new DefaultListModel();
         try {
-      Conexion con = new Conexion();
+            Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
@@ -288,13 +279,6 @@ public class V95 extends javax.swing.JFrame {
 
     }
 
-
-    
-    
-    
-    
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -472,8 +456,8 @@ public class V95 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
-                int result = JOptionPane.showConfirmDialog(null, "seguro que quieres capturar el codigo?", "ATENCION",
-      JOptionPane.YES_NO_OPTION,
+        int result = JOptionPane.showConfirmDialog(null, "seguro que quieres capturar el codigo?", "ATENCION",
+                JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
         if (result == JOptionPane.YES_OPTION) {
@@ -503,16 +487,16 @@ public class V95 extends javax.swing.JFrame {
 
     private void lincluyeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lincluyeMouseClicked
         // TODO add your handling code here:
-            if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) {
             agregarelementolista();
         }
     }//GEN-LAST:event_lincluyeMouseClicked
 
     private void lfinalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lfinalMouseClicked
         // TODO add your handling code here:
-         if (evt.getClickCount() == 2) {
+        if (evt.getClickCount() == 2) {
             eliminarelementolista();
-        }  
+        }
     }//GEN-LAST:event_lfinalMouseClicked
 
     private void btnagregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarActionPerformed

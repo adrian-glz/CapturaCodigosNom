@@ -7,6 +7,7 @@
 package VJSOFTWARE;
 
  
+import JDBC.Conexion;
 import PRINCIPAL.CapturaCodigo;
 import static PRINCIPAL.CapturaCodigo.ahorro;
 import static PRINCIPAL.CapturaCodigo.categoriaweb;
@@ -29,6 +30,7 @@ import static PRINCIPAL.CapturaCodigo.precioventa;
 import static PRINCIPAL.CapturaCodigo.utilidad;
 import PRINCIPAL.NuevaOpcion;
 import java.awt.HeadlessException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,13 +67,12 @@ public class VJSOFTWARE extends javax.swing.JFrame {
         llenaridioma();
     }
 
-    
     public void llenargenero() {
         cbgenero.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE noms;");
             rs = st.executeQuery("select * from VJGenero order by  elemento ASC");
 
@@ -90,9 +91,9 @@ public class VJSOFTWARE extends javax.swing.JFrame {
     public void llenarjugadores() {
         cbjugadores.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE noms;");
             rs = st.executeQuery("select * from VJJugadores order by  elemento ASC");
             while (rs.next()) {
@@ -110,9 +111,9 @@ public class VJSOFTWARE extends javax.swing.JFrame {
     public void llenaredicion() {
         cbedicion.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE noms;");
             rs = st.executeQuery("select * from VJEdicion order by  elemento ASC");
             while (rs.next()) {
@@ -130,9 +131,9 @@ public class VJSOFTWARE extends javax.swing.JFrame {
     public void llenarclasificacion() {
         cbclasificacion.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE noms;");
             rs = st.executeQuery("select * from VJclasificacion order by  elemento ASC");
 
@@ -148,13 +149,12 @@ public class VJSOFTWARE extends javax.swing.JFrame {
         }
     }
 
-    
-      public void llenaridioma() {
+    public void llenaridioma() {
         cbidioma.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE noms;");
             rs = st.executeQuery("select * from VJIdioma order by  elemento ASC");
 
@@ -184,7 +184,6 @@ public class VJSOFTWARE extends javax.swing.JFrame {
 
     }
 
- 
     public void insertarcodigo() {
         comparacionnacional();
         String gene = cbgenero.getSelectedItem().toString();
@@ -196,39 +195,39 @@ public class VJSOFTWARE extends javax.swing.JFrame {
         int g = Integer.parseInt(genero);
 
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            Statement st = conexion.createStatement();
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
 
-       ps = conexion.prepareStatement("insert into noms1web (codigo,Codigo2,descripcion,nacional,Grupo,descgrupo,Genero,"
+            ps = conn.prepareStatement("insert into noms1web (codigo,Codigo2,descripcion,nacional,Grupo,descgrupo,Genero,"
                     + "descgenero,CostoUni,PrecioVenta,PrecioOferta,Ahorro,Utilidad,Margen,marca,hecho,importador,exportador,FechaAct,categoriaweb,campo1,campo2,campo3,campo4,campo5,campo6,campo7,campo8,campo9,campo10,campo11,campo12)\n"
                     + "VALUES('" + codigo + "','" + codigo2 + "','" + descripcion + "','" + Vnacional + "','" + grupo + "','" + descgrupo + "','" + g + "','" + descgenero + "','" + costounitario + "','" + precioventa + "','" + preciooferta + "','" + ahorro + "','" + utilidad + "','" + margen + "','" + marca + "','" + hecho + "','" + importador + "','" + exportador + "',getdate(),'" + categoriaweb + "' "
-            + ",'" +"CLASIFICACION "+ clasificacion + "','" +"GENERO "+ gene + "','" +"JUGADORES "+ jugadores + "','" +"EDICION "+ edicion + "','" +"IDIOMA "+ idioma + "','null','null','null','null','null','null','null')");
+                    + ",'" + "CLASIFICACION " + clasificacion + "','" + "GENERO " + gene + "','" + "JUGADORES " + jugadores + "','" + "EDICION " + edicion + "','" + "IDIOMA " + idioma + "','null','null','null','null','null','null','null')");
    //            + ",'" + clasificacion + "','" + gene + "','" + jugadores + "','" + edicion + "','" + idioma + "','null','null','null','null','null','null','null')");
-         //   System.out.println(""+gene+clasificacion+jugadores+edicion+idioma);  
+            //   System.out.println(""+gene+clasificacion+jugadores+edicion+idioma);  
         /*    System.out.println(
-                    "CODIGO:" + codigo + "\n"
-                    + "CODIGO2:" + codigo2 + "\n"
-                    + "DESCRIPCION:" + descripcion + "\n"
-                    + "NACIONAL:" + Vnacional + "\n"
-                    + "GRUPO:" + grupo + "\n"
-                    + "DESCRIPCION GRUPO:" + descgrupo + "\n"
-                    + "# GENERO:" + g + "\n"
-                    + "DESCRIPCION GENERO:" + descgenero + "\n"
-                    + "COSTO UNITARIO:" + costounitario + "\n"
-                    + "PRECIO VENTA:" + precioventa + "\n"
-                    + "PRECIO OFERTA:" + preciooferta + "\n"
-                    + "AHORRO:" + ahorro + "\n"
-                    + "UTILIDAD:" + utilidad + "\n"
-                    + "MARGEN:" + margen + "\n"
-                    + "MARCA:" + marca + "\n"
-                    + "HECHO EN:" + hecho + "\n"
-                    + "IMPORTADOR:" + importador + "\n"
-                    + "EXPORTADOR:" + exportador + "\n"
-                    + "CAT WEB:" + categoriaweb + "\n"
-                    + "INCLUYE:" + incluye + "\n"
-            );*/
+             "CODIGO:" + codigo + "\n"
+             + "CODIGO2:" + codigo2 + "\n"
+             + "DESCRIPCION:" + descripcion + "\n"
+             + "NACIONAL:" + Vnacional + "\n"
+             + "GRUPO:" + grupo + "\n"
+             + "DESCRIPCION GRUPO:" + descgrupo + "\n"
+             + "# GENERO:" + g + "\n"
+             + "DESCRIPCION GENERO:" + descgenero + "\n"
+             + "COSTO UNITARIO:" + costounitario + "\n"
+             + "PRECIO VENTA:" + precioventa + "\n"
+             + "PRECIO OFERTA:" + preciooferta + "\n"
+             + "AHORRO:" + ahorro + "\n"
+             + "UTILIDAD:" + utilidad + "\n"
+             + "MARGEN:" + margen + "\n"
+             + "MARCA:" + marca + "\n"
+             + "HECHO EN:" + hecho + "\n"
+             + "IMPORTADOR:" + importador + "\n"
+             + "EXPORTADOR:" + exportador + "\n"
+             + "CAT WEB:" + categoriaweb + "\n"
+             + "INCLUYE:" + incluye + "\n"
+             );*/
 
             int n = ps.executeUpdate();
             if (n > 0) {
@@ -237,12 +236,10 @@ public class VJSOFTWARE extends javax.swing.JFrame {
             }
         } catch (HeadlessException | SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos" + ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(VJSOFTWARE.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
- 
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -381,7 +378,7 @@ public class VJSOFTWARE extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btngrabarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngrabarActionPerformed
-           int result = JOptionPane.showConfirmDialog(null, "seguro que quieres capturar el codigo?", "ATENCION",
+        int result = JOptionPane.showConfirmDialog(null, "seguro que quieres capturar el codigo?", "ATENCION",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
 
@@ -397,7 +394,7 @@ public class VJSOFTWARE extends javax.swing.JFrame {
     }//GEN-LAST:event_btngrabarActionPerformed
 
     private void btnrefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrefrescarActionPerformed
-         llenaredicion();
+        llenaredicion();
         llenargenero();
         llenarjugadores();
         llenarclasificacion();

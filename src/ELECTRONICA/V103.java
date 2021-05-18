@@ -33,15 +33,12 @@ import PRINCIPAL.NuevaOpcion;
  
 import java.awt.HeadlessException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -60,14 +57,14 @@ public final class V103 extends javax.swing.JFrame {
 
     public V103() {
         initComponents();
-      
-        lblcodigo.setText(codigo);  
+
+        lblcodigo.setText(codigo);
         llenarcolor();
         llenarconexion();
         llenarfrecuencia();
         llenarcantidad();
-         llenarlistaincluye();
-     }
+        llenarlistaincluye();
+    }
 
     public void llenarcolor() {
         cbcolor.removeAllItems();
