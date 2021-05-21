@@ -6,8 +6,10 @@
 
 package PRINCIPAL;
 
+import JDBC.Conexion;
 import java.awt.HeadlessException;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,18 +41,15 @@ public class EliminaCodigo extends javax.swing.JFrame {
     public void existecodigo() {
 
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
-            st.executeUpdate("use noms");
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();   st.executeUpdate("use noms");
             rs = st.executeQuery("select  codigo from noms1web where codigo='" + txt_cod.getText() + "'");
 
             boolean variable = rs.next();
 
             String s1 = Boolean.toString(variable);
-            // System.out.println("s1>>" + s1);
-
-            try {
+             try {
                 if (s1.equals("false")) {
                     while (rs.next()) {///
                     }
@@ -75,8 +74,6 @@ public class EliminaCodigo extends javax.swing.JFrame {
             }
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EliminaCodigo.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -85,9 +82,9 @@ public class EliminaCodigo extends javax.swing.JFrame {
     public void ayudaboton() {
 
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+        Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use noms;");
             rs = st.executeQuery("select * from ayudausuario where id=2");
 
@@ -123,12 +120,12 @@ public class EliminaCodigo extends javax.swing.JFrame {
     public void eliminarcodigo(){
     
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            Statement st = conexion.createStatement();
-            st.executeUpdate("USE NOMS;");
+              Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
+            st.executeUpdate("use noms");
             String query = "delete from noms1web where codigo= '" + txt_cod.getText() + "' ";
-            ps = conexion.prepareStatement(query);
+            ps = conn.prepareStatement(query);
             int n = ps.executeUpdate();
 
             if (n > 0) {
@@ -138,8 +135,6 @@ public class EliminaCodigo extends javax.swing.JFrame {
             }
         } catch (HeadlessException | SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(EliminaCodigo.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -154,7 +149,6 @@ public class EliminaCodigo extends javax.swing.JFrame {
         btnayudar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         btnvolver = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de captura codigos");
@@ -180,7 +174,7 @@ public class EliminaCodigo extends javax.swing.JFrame {
                 btneliminarActionPerformed(evt);
             }
         });
-        getContentPane().add(btneliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 150, 190, 50));
+        getContentPane().add(btneliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, 190, 50));
 
         btnayudar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnayudar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/ayuda (2).png"))); // NOI18N
@@ -194,7 +188,7 @@ public class EliminaCodigo extends javax.swing.JFrame {
                 btnayudarActionPerformed(evt);
             }
         });
-        getContentPane().add(btnayudar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 290, 240, 70));
+        getContentPane().add(btnayudar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 150, 240, 50));
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 230, 70, 20));
 
         btnvolver.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -206,29 +200,18 @@ public class EliminaCodigo extends javax.swing.JFrame {
                 btnvolverActionPerformed(evt);
             }
         });
-        getContentPane().add(btnvolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 190, 50));
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 360, 130, 20));
+        getContentPane().add(btnvolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 190, 50));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnayudarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnayudarActionPerformed
-        // TODO add your handling code here:
-        
-         
-         ayudaboton();
-         
-         
-         
-         
+           ayudaboton(); 
     }//GEN-LAST:event_btnayudarActionPerformed
 
     private void btneliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarActionPerformed
-        // TODO add your handling code here:
-   
-         existecodigo();
- 
+        existecodigo(); 
     }//GEN-LAST:event_btneliminarActionPerformed
 
     private void btnvolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnvolverActionPerformed
@@ -238,8 +221,7 @@ public class EliminaCodigo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnvolverActionPerformed
 
     private void txt_codKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codKeyPressed
-        // TODO add your handling code here:
-          if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
                  existecodigo();
           }
     }//GEN-LAST:event_txt_codKeyPressed
@@ -285,7 +267,6 @@ public class EliminaCodigo extends javax.swing.JFrame {
     private javax.swing.JButton btnvolver;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField txt_cod;
     // End of variables declaration//GEN-END:variables
 }

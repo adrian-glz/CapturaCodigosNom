@@ -14,15 +14,11 @@ import javax.swing.ImageIcon;
  */
 public class Menu extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Menu
-     */
     public Menu() {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("/recursos/logo.png")).getImage());
     }
 
- 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -31,10 +27,12 @@ public class Menu extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnopcionmultiple = new javax.swing.JButton();
         btneliminarcodigo = new javax.swing.JButton();
-        btnvisualiza = new javax.swing.JButton();
+        btnMonitor = new javax.swing.JButton();
         btnopcionmultiple1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        btncapturanom1 = new javax.swing.JButton();
+        btnvisualiza = new javax.swing.JButton();
+        btneliminarcodigo1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Bienvenido");
@@ -43,70 +41,59 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btncapturanom.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btncapturanom.setForeground(new java.awt.Color(255, 255, 255));
-        btncapturanom.setText("Captura de nom");
+        btncapturanom.setText("Captura de caracteristicas (filtros,prox noms)");
         btncapturanom.setBorder(null);
-        btncapturanom.setBorderPainted(false);
-        btncapturanom.setContentAreaFilled(false);
         btncapturanom.setFocusPainted(false);
         btncapturanom.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btncapturanomActionPerformed(evt);
             }
         });
-        getContentPane().add(btncapturanom, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 37, 280, 50));
+        getContentPane().add(btncapturanom, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 440, 50));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Ver 1.2");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 450, 50, 20));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 480, 50, 20));
 
         btnopcionmultiple.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnopcionmultiple.setForeground(new java.awt.Color(255, 255, 255));
         btnopcionmultiple.setText("Insertar nueva opcion");
-        btnopcionmultiple.setContentAreaFilled(false);
         btnopcionmultiple.setFocusPainted(false);
         btnopcionmultiple.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnopcionmultipleActionPerformed(evt);
             }
         });
-        getContentPane().add(btnopcionmultiple, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 285, 280, 50));
+        getContentPane().add(btnopcionmultiple, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 250, 50));
 
         btneliminarcodigo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btneliminarcodigo.setForeground(new java.awt.Color(255, 255, 255));
-        btneliminarcodigo.setText("Eliminar codigo");
-        btneliminarcodigo.setContentAreaFilled(false);
+        btneliminarcodigo.setText("Eliminar  caracteristicas de codigo (filtros)");
         btneliminarcodigo.setFocusPainted(false);
         btneliminarcodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btneliminarcodigoActionPerformed(evt);
             }
         });
-        getContentPane().add(btneliminarcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 120, 280, 50));
+        getContentPane().add(btneliminarcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, 440, 50));
 
-        btnvisualiza.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnvisualiza.setForeground(new java.awt.Color(255, 255, 255));
-        btnvisualiza.setText("Ver codigos capturados");
-        btnvisualiza.setContentAreaFilled(false);
-        btnvisualiza.setFocusPainted(false);
-        btnvisualiza.addActionListener(new java.awt.event.ActionListener() {
+        btnMonitor.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnMonitor.setText("Monitor de novedad");
+        btnMonitor.setFocusPainted(false);
+        btnMonitor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnvisualizaActionPerformed(evt);
+                btnMonitorActionPerformed(evt);
             }
         });
-        getContentPane().add(btnvisualiza, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 205, 280, 50));
+        getContentPane().add(btnMonitor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 310, 250, 50));
 
         btnopcionmultiple1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnopcionmultiple1.setForeground(new java.awt.Color(255, 255, 255));
         btnopcionmultiple1.setText("Cerrar");
-        btnopcionmultiple1.setContentAreaFilled(false);
         btnopcionmultiple1.setFocusPainted(false);
         btnopcionmultiple1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnopcionmultiple1ActionPerformed(evt);
             }
         });
-        getContentPane().add(btnopcionmultiple1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 370, 280, 50));
+        getContentPane().add(btnopcionmultiple1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 430, 280, 50));
 
         jLabel3.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 0, 51));
@@ -115,10 +102,38 @@ public class Menu extends javax.swing.JFrame {
         jLabel3.setToolTipText("");
         jLabel3.setFocusable(false);
         jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 38));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 280, 38));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/ta_1.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 480));
+        btncapturanom1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btncapturanom1.setText("Alta codigo");
+        btncapturanom1.setBorder(null);
+        btncapturanom1.setFocusPainted(false);
+        btncapturanom1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btncapturanom1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btncapturanom1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 440, 50));
+
+        btnvisualiza.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnvisualiza.setText("Ver codigos capturados");
+        btnvisualiza.setFocusPainted(false);
+        btnvisualiza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnvisualizaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnvisualiza, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 250, 50));
+
+        btneliminarcodigo1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btneliminarcodigo1.setText("Eliminar  codigo ");
+        btneliminarcodigo1.setFocusPainted(false);
+        btneliminarcodigo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btneliminarcodigo1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btneliminarcodigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 440, 50));
 
         pack();
         setLocationRelativeTo(null);
@@ -142,17 +157,30 @@ public class Menu extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btneliminarcodigoActionPerformed
 
+    private void btnMonitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonitorActionPerformed
+
+    }//GEN-LAST:event_btnMonitorActionPerformed
+
+    private void btnopcionmultiple1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnopcionmultiple1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btnopcionmultiple1ActionPerformed
+
+    private void btncapturanom1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncapturanom1ActionPerformed
+        Principal p = new Principal();
+        p.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btncapturanom1ActionPerformed
+
     private void btnvisualizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnvisualizaActionPerformed
         VerCodigos m = new VerCodigos();
         m.setVisible(true);
         this.dispose();
-        
+
     }//GEN-LAST:event_btnvisualizaActionPerformed
 
-    private void btnopcionmultiple1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnopcionmultiple1ActionPerformed
+    private void btneliminarcodigo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarcodigo1ActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_btnopcionmultiple1ActionPerformed
+    }//GEN-LAST:event_btneliminarcodigo1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,12 +218,14 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnMonitor;
     private javax.swing.JButton btncapturanom;
+    private javax.swing.JButton btncapturanom1;
     private javax.swing.JButton btneliminarcodigo;
+    private javax.swing.JButton btneliminarcodigo1;
     private javax.swing.JButton btnopcionmultiple;
     private javax.swing.JButton btnopcionmultiple1;
     private javax.swing.JButton btnvisualiza;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables

@@ -714,7 +714,7 @@ public class CapturaCodigo extends javax.swing.JFrame {
     public void ayudaboton() {
 
         try {
-          Conexion con = new Conexion();
+            Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("use noms;");

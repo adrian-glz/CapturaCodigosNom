@@ -6,7 +6,9 @@
 
 package PRINCIPAL;
 
+import JDBC.Conexion;
 import java.awt.HeadlessException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,9 +49,9 @@ public class VerCodigos extends javax.swing.JFrame {
 
     
          try {
-          Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+             Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use noms");
 
             //Seleccionar datos
@@ -71,8 +73,6 @@ public class VerCodigos extends javax.swing.JFrame {
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(VerCodigos.class.getName()).log(Level.SEVERE, null, ex);
         }
  
   
@@ -127,9 +127,9 @@ public class VerCodigos extends javax.swing.JFrame {
          //Conexión a la BD
      
          try {
-          Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+             Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use noms");
 
             //Seleccionar datos
@@ -149,17 +149,15 @@ public class VerCodigos extends javax.swing.JFrame {
         } catch (HeadlessException | NumberFormatException | SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
 
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(VerCodigos.class.getName()).log(Level.SEVERE, null, ex);
         } }
     
     
        public void ayudaboton() {
 
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+             Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use noms;");
             rs = st.executeQuery("select * from ayudausuario where id=3");
 

@@ -19,9 +19,8 @@ public class PersonaJDBC {
         try {
 
             con = Conexion.getConnection();
-            st = con.prepareStatement("select c.descripcion,c.codigo from codigos c, periodo p\n"
-                    + "where c.codigo=p.codigo and p.mes>=1 and p.ano=2021 and existenciafinal>0 \n"
-                    + "and c.codigo COLLATE SQL_Latin1_General_CP1_CI_AS not in (select codigo from noms.dbo.noms1web) and c.estatus<>'D' and c.grupo not in (20,25)\n"
+            st = con.prepareStatement("select c.descripcion,c.codigo from codigos c, periodo p where c.codigo=p.codigo and p.mes>=1 and p.ano=2021  \n"
+                    + "and c.codigo COLLATE SQL_Latin1_General_CP1_CI_AS not in (select codigo from noms.dbo.noms1web) and c.estatus<>'D' and c.grupo not in (20,25) \n"
                     + "group by c.codigo,c.descripcion");
 
             ResultSet rs = st.executeQuery();

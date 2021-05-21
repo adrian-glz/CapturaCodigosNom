@@ -4,7 +4,6 @@ import JDBC.Conexion;
 import java.awt.HeadlessException;
 import java.awt.event.ItemEvent;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,8 +12,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -34,7 +31,7 @@ public class Principal extends javax.swing.JFrame {
     PreparedStatement ps = null;
     TableModel md;
     ResultSet rs;
-    String generoid, grupoid, proveedorid, marcaid, origenid;
+    String generoid, grupoid, proveedorid, marcaid, origenid,novedad;
 
     public Principal() {
 
@@ -64,7 +61,6 @@ public class Principal extends javax.swing.JFrame {
         jpanelcategorias.setVisible(false);
         btngenerar.setEnabled(false);
         btngenerar.setVisible(false);
-
     }
 
     public void llenartablacategorias() {
@@ -115,7 +111,6 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void nuevoelementofamilia() {
-        //  jcfamilia.removeAllItems();
         jcfamilia.addItem("");
     }
 
@@ -378,7 +373,8 @@ public class Principal extends javax.swing.JFrame {
         checknovedad = new javax.swing.JCheckBox();
         jcorigen = new javax.swing.JComboBox();
         jLabel12 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        jButton1 = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Captura codigo nuevo");
@@ -413,7 +409,7 @@ public class Principal extends javax.swing.JFrame {
 
         jcgrupo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcgrupo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        getContentPane().add(jcgrupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 180, 30));
+        getContentPane().add(jcgrupo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 170, 30));
 
         jcgenero.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcgenero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -468,7 +464,7 @@ public class Principal extends javax.swing.JFrame {
                 btnayudaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnayuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 310, 70, 50));
+        getContentPane().add(btnayuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 310, 70, 50));
 
         txtcodigosounds.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtcodigosounds.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -489,7 +485,7 @@ public class Principal extends javax.swing.JFrame {
                 btngenerarActionPerformed(evt);
             }
         });
-        getContentPane().add(btngenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 280, 280, 40));
+        getContentPane().add(btngenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, 280, 50));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Procedencia");
@@ -508,7 +504,7 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(jcfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, 30));
 
         lblfecha.setText("  ");
-        getContentPane().add(lblfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 340, 80, 20));
+        getContentPane().add(lblfecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 370, 80, 20));
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel8.setText("Clave Apartado");
@@ -550,7 +546,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jpanelcostos.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 160, 30));
 
-        getContentPane().add(jpanelcostos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 260, 90));
+        getContentPane().add(jpanelcostos, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, 260, 90));
 
         btnagregarfamilia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/123.png"))); // NOI18N
         btnagregarfamilia.setContentAreaFilled(false);
@@ -563,7 +559,6 @@ public class Principal extends javax.swing.JFrame {
             new Object [][] {
                 {null},
                 {null},
-                {null},
                 {null}
             },
             new String [] {
@@ -571,20 +566,22 @@ public class Principal extends javax.swing.JFrame {
             }
         ));
         jtcategorias.setRowHeight(18);
+        jtcategorias.getTableHeader().setReorderingAllowed(false);
         jtcategorias.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jtcategoriasMouseEntered(evt);
             }
         });
+        jtcategorias.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jtcategoriasPropertyChange(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtcategorias);
-        if (jtcategorias.getColumnModel().getColumnCount() > 0) {
-            jtcategorias.getColumnModel().getColumn(0).setResizable(false);
-            jtcategorias.getColumnModel().getColumn(0).setPreferredWidth(120);
-        }
 
         jpanelcategorias.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 220, 80));
 
-        getContentPane().add(jpanelcategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 170, 230, 90));
+        getContentPane().add(jpanelcategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 230, 90));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel9.setText("Proveedor");
@@ -608,7 +605,7 @@ public class Principal extends javax.swing.JFrame {
 
         checknovedad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         checknovedad.setText("Novedad");
-        getContentPane().add(checknovedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 170, 100, 30));
+        getContentPane().add(checknovedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 170, 100, 30));
 
         jcorigen.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcorigen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -618,13 +615,17 @@ public class Principal extends javax.swing.JFrame {
         jLabel12.setText("Marca");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 65, -1, -1));
 
-        jToggleButton1.setText("jToggleButton1");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButton1.setText("Regresar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 290, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, 180, 50));
+
+        jLabel13.setText("   ");
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 380, 470, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -755,25 +756,18 @@ public class Principal extends javax.swing.JFrame {
             if (n1 == null) {
                 model.removeRow(x);
             } else {
-                System.out.println("Contador en " + x);
-                System.out.println("lo que contiene la tabla es " + n1);
             }
         }
     }
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void jtcategoriasPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtcategoriasPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtcategoriasPropertyChange
 
-        eliminarnulos();
-        /* for (int x = 0; x < jtcategorias.getRowCount(); x++) {
-            
-         String n1 = ((String) jtcategorias.getValueAt(x, 0));
-         //    if (n1.length() < 2) {
-         /// System.out.println("posicion "+x+">"+n1.length());
-                
-         //     } else {
-         System.out.println("variables de tabla " + n1 + "posicion" + x);
-         //    }
-         }*/
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+     Menu m = new Menu();
+     m.setVisible(true);
+     this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     public void ExisteCodigo() {//comprobar 
 
@@ -793,8 +787,7 @@ public class Principal extends javax.swing.JFrame {
                     while (rs.next()) {
                     }
                     JOptionPane.showMessageDialog(null, "El codigo ya existe, intente con otro", "Alerta", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    //PROCEDEMOS
+                } else {//PROCEDEMOS                  
                     insertacodigo();
                 }
             } catch (SQLException ex) {
@@ -808,10 +801,10 @@ public class Principal extends javax.swing.JFrame {
 
     public void insertacodigo() {
 
-        String codigosounds = txtcodigosounds.getText().trim();
-        String codigoproveedor = txtcodigoproveedor.getText().trim();
+        String codigosounds = txtcodigosounds.getText().trim().toUpperCase();
+        String codigoproveedor = txtcodigoproveedor.getText().trim().toUpperCase();
         String codigobarras = txtcodigobarras.getText().trim();
-        String descripcion = txtdescripcion.getText().trim();
+        String descripcion = txtdescripcion.getText().trim().toUpperCase();
         String costo = txtCosto.getText().trim();
         String precioventa = txtPrecioventa.getText().trim();
         String grupo = jcgrupo.getSelectedItem().toString().trim();
@@ -844,6 +837,12 @@ public class Principal extends javax.swing.JFrame {
             familia = "NULL";
         }
 
+        if (checknovedad.isSelected()) {
+            novedad = "1";
+        } else {
+            novedad = "0";
+        }
+
         try {
             Conexion con = new Conexion();
             Connection conn = con.getConnection();
@@ -860,16 +859,8 @@ public class Principal extends javax.swing.JFrame {
             int n = ps.executeUpdate();
             //  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
             if (n > 0) {
-                JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente!");
-                //  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
-              /*  CapturaCodigo c = new CapturaCodigo();
-                 c.txt_id.setText(codigosounds);
-                 this.dispose();
-                 c.setVisible(true);
-                 c.colorearblanco();
-                 c.vaciarcampiosvalores();
-                 c.recuperarcampos();*/
-                //  limpiarventanas();
+                JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente #111!");
+
                 insertacodigoinfo();
             }
         } catch (HeadlessException | SQLException ex) {
@@ -880,7 +871,7 @@ public class Principal extends javax.swing.JFrame {
 
     public void insertacodigoinfo() {
 
-        String codigosounds = txtcodigosounds.getText().trim();
+        String codigosounds = txtcodigosounds.getText().trim().toUpperCase();
         String peso = txtpeso.getText().trim();
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SS");
@@ -894,21 +885,11 @@ public class Principal extends javax.swing.JFrame {
             Connection conn = con.getConnection();
             Statement st = conn.createStatement();
             st.executeUpdate("use cml;");
-            ps = conn.prepareStatement("insert into Codigos_info  (codigo,peso_kg,marca_id, origen_id) "
-                    + "VALUES('" + codigosounds + "','" + peso + "','" + marcaid + "','" + origenid + "')");
+            ps = conn.prepareStatement("insert into Codigos_info  (codigo,peso_kg,marca_id,novedad, origen_id) "
+                    + "VALUES('" + codigosounds + "','" + peso + "','" + marcaid + "','" + novedad + "','" + origenid + "')");
             int n = ps.executeUpdate();
-            //  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
             if (n > 0) {
-                JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente!");
-                //  System.out.println("¡Los datos han sido guardados exitósamente!" + n);
-           /*     CapturaCodigo c = new CapturaCodigo();
-                 c.txt_id.setText(codigosounds);
-                 this.dispose();
-                 c.setVisible(true); //codigo para cruzar a la suiguiente ventata
-                 c.colorearblanco();
-                 c.vaciarcampiosvalores();
-                 c.recuperarcampos();
-                 //  limpiarventanas();*/
+                JOptionPane.showMessageDialog(null, "¡Los datos han sido guardados exitósamente! #222");
                 insertacodigotocategorias();
             }
         } catch (HeadlessException | SQLException ex) {
@@ -918,10 +899,11 @@ public class Principal extends javax.swing.JFrame {
     }
 
     public void insertacodigotocategorias() {
+        eliminarnulos();
         PreparedStatement pse = null;
         int n = 0;
-        String codigo = txtcodigosounds.getText().trim();
-
+        String codigo = txtcodigosounds.getText().trim().toUpperCase();
+        String vcodigoformateado = "";
         for (int x = 0; x < jtcategorias.getRowCount(); x++) {
             try {
                 Conexion con = new Conexion();
@@ -929,29 +911,38 @@ public class Principal extends javax.swing.JFrame {
                 Statement ste = conn.createStatement();
                 ste.executeUpdate("use cml;");
                 String vcodigo = ((String) jtcategorias.getValueAt(x, 0));//obtener valor de precio
-                String vcodigoformateado = vcodigo.replaceAll("[^0-9]", "");//dejameos solo los elementos"[^0-1-2-3-4-5-6-7-8-9-.00]"
-                double vcodigoparseado = Double.parseDouble(vcodigoformateado);
+                try {
+                    vcodigoformateado = vcodigo.replaceAll("[^0-9]", "");//dejameos solo los elementos"[^0-1-2-3-4-5-6-7-8-9-.00]"
+                } catch (Exception e) {
+
+                }
+                //  System.out.println("codigoformateoad"+vcodigoformateado);
+                int vcodigoparseado = Integer.parseInt(vcodigoformateado);
+                System.out.println("codigoparseado " + vcodigoparseado);
                 pse = conn.prepareStatement("insert into Codigos_to_categories (codigo,categories_id) "
                         + "VALUES('" + codigo + "','" + vcodigoparseado + "')");
                 n = pse.executeUpdate();
 
             } catch (HeadlessException | SQLException ex) {
-                JOptionPane.showMessageDialog(rootPane, "Error en la base de datos 901" + ex);
+                //  JOptionPane.showMessageDialog(rootPane, "Error en la base de datos 901" + ex);
             }
         }///fin del cliclo for perro
         if (n > 0) {
             JOptionPane.showMessageDialog(null, "¡Se dio de alta el codigo correctamente!");
-            //    insertaventapagos();
-            //  aumentarfolio(); 
+            CapturaCodigo c = new CapturaCodigo();
+            c.txt_id.setText(txtcodigosounds.getText().trim());
+            this.dispose();
+            c.setVisible(true);
+            c.colorearblanco();
+            c.vaciarcampiosvalores();
+            c.recuperarcampos();
+            System.out.println("llego sin errores");
         } else {
-
+            JOptionPane.showMessageDialog(null, "¡ufff! ha ocurrido un error");
         }
 
     }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -989,10 +980,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnayuda;
     private javax.swing.JButton btngenerar;
     private javax.swing.JCheckBox checknovedad;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1002,7 +995,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JComboBox jcapartado;
     private javax.swing.JComboBox jcestatus;
     private javax.swing.JComboBox jcfamilia;

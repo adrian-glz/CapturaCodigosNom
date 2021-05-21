@@ -6,27 +6,10 @@
 
 package PRINCIPAL;
 
-import ACCELECTRONICA.V141;
-import static ACCELECTRONICA.V141.incluye;
-import static PRINCIPAL.CapturaCodigo.ahorro;
-import static PRINCIPAL.CapturaCodigo.categoriaweb;
-import static PRINCIPAL.CapturaCodigo.codigo;
-import static PRINCIPAL.CapturaCodigo.codigo2;
-import static PRINCIPAL.CapturaCodigo.costounitario;
-import static PRINCIPAL.CapturaCodigo.descgenero;
-import static PRINCIPAL.CapturaCodigo.descgrupo;
-import static PRINCIPAL.CapturaCodigo.descripcion;
-import static PRINCIPAL.CapturaCodigo.exportador;
+import JDBC.Conexion;
 import static PRINCIPAL.CapturaCodigo.genero;
-import static PRINCIPAL.CapturaCodigo.grupo;
-import static PRINCIPAL.CapturaCodigo.hecho;
-import static PRINCIPAL.CapturaCodigo.importador;
-import static PRINCIPAL.CapturaCodigo.marca;
-import static PRINCIPAL.CapturaCodigo.margen;
-import static PRINCIPAL.CapturaCodigo.preciooferta;
-import static PRINCIPAL.CapturaCodigo.precioventa;
-import static PRINCIPAL.CapturaCodigo.utilidad;
 import java.awt.HeadlessException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,7 +17,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -77,9 +59,9 @@ public class NuevaOpcion extends javax.swing.JFrame {
             String velemento = itemcodigo.toString();
 
             try {
-                Class.forName("net.sourceforge.jtds.jdbc.Driver");
-                java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-                Statement st = conexion.createStatement();
+                Conexion con = new Conexion();
+                Connection conn = con.getConnection();
+                st = conn.createStatement();
                 st.executeUpdate("USE NOMS;");
 //            System.out.println(ES + TE + "<<<<<<<<");
 
@@ -88,7 +70,7 @@ public class NuevaOpcion extends javax.swing.JFrame {
                 String queryf = "" + p1 + p2;
 
                 /// System.out.println(">>>>>>"+queryf);
-                ps = conexion.prepareStatement(queryf);
+                ps = conn.prepareStatement(queryf);
                 int n = ps.executeUpdate();
 
                 if (n > 0) {
@@ -99,8 +81,6 @@ public class NuevaOpcion extends javax.swing.JFrame {
                 }
             } catch (HeadlessException | SQLException ex) {
                 JOptionPane.showMessageDialog(rootPane, "Error en la base de datos");
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(NuevaOpcion.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(null, "¡Seleccione un elemento de la tabla!");
@@ -113,9 +93,9 @@ public class NuevaOpcion extends javax.swing.JFrame {
         String ES2 = cbtablas.getSelectedItem().toString();
         String TE = txt_nuevo.getText().toUpperCase();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            Statement st = conexion.createStatement();
+          Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
 //            System.out.println(ES + TE + "<<<<<<<<");
 
@@ -124,7 +104,7 @@ public class NuevaOpcion extends javax.swing.JFrame {
             String queryf = "" + p1 + p2;
 
             //System.out.println(">>>>>>"+queryf);
-            ps = conexion.prepareStatement(queryf);
+            ps = conn.prepareStatement(queryf);
             int n = ps.executeUpdate();
 
             if (n > 0) {
@@ -137,8 +117,6 @@ public class NuevaOpcion extends javax.swing.JFrame {
             }
         } catch (HeadlessException | SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(NuevaOpcion.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
@@ -150,9 +128,9 @@ public class NuevaOpcion extends javax.swing.JFrame {
         ResultSet rs;
         cbtablas.removeAllItems();
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+      Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("use NOMS;");
             rs = st.executeQuery("select TABLE_NAME from INFORMATION_SCHEMA.TABLES \n"
                     + "where TABLE_NAME not in ('ayudausuario','noms1web','noms1webatributos')\n"
@@ -179,9 +157,9 @@ public class NuevaOpcion extends javax.swing.JFrame {
 
         try {
 
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            java.sql.Connection conexion = DriverManager.getConnection("jdbc:jtds:sqlserver://192.168.1.80:55024", "usounds", "madljda");
-            st = conexion.createStatement();
+              Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
             rs = st.executeQuery("select * from " + ES + ES2);
             md = (DefaultTableModel) tbl_elementos.getModel();
@@ -195,8 +173,6 @@ public class NuevaOpcion extends javax.swing.JFrame {
             st.close();
         } catch (HeadlessException | SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(NuevaOpcion.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
