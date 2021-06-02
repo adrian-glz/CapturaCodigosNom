@@ -1,10 +1,6 @@
 package JDBC;
 
 import CodigoPOJO.CodigoPOJO;
-import JDBC.Conexion;
-//import POJO.CodigoPOJO;
-//import com.mxrck.autocompleter.TextAutoCompleter;
-
 import com.mxrck.autocompleter.TextAutoCompleter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

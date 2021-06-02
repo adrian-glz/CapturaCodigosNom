@@ -743,7 +743,7 @@ public class CapturaCodigo extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-            System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+          //  System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -1259,9 +1259,9 @@ public class CapturaCodigo extends javax.swing.JFrame {
                 Desktop.getDesktop().browse(new URI(cadena2 + C));
 
             } catch (URISyntaxException ex) {
-                System.out.println("error");
+              //  System.out.println("error");
             } catch (IOException ex) {
-                System.out.println("error2"); // hacer algo
+              //  System.out.println("error2"); // hacer algo
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "Capture un codigo valido");

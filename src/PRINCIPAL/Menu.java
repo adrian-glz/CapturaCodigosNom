@@ -1,17 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package PRINCIPAL;
 
 import javax.swing.ImageIcon;
-
-/**
- *
- * @author AGONZALEZ
- */
+ 
 public class Menu extends javax.swing.JFrame {
 
     public Menu() {
@@ -27,7 +17,6 @@ public class Menu extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnopcionmultiple = new javax.swing.JButton();
         btneliminarcodigo = new javax.swing.JButton();
-        btnMonitor = new javax.swing.JButton();
         btnopcionmultiple1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btncapturanom1 = new javax.swing.JButton();
@@ -63,7 +52,7 @@ public class Menu extends javax.swing.JFrame {
                 btnopcionmultipleActionPerformed(evt);
             }
         });
-        getContentPane().add(btnopcionmultiple, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 250, 50));
+        getContentPane().add(btnopcionmultiple, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 310, 250, 50));
 
         btneliminarcodigo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btneliminarcodigo.setText("Eliminar  caracteristicas de codigo (filtros)");
@@ -75,16 +64,6 @@ public class Menu extends javax.swing.JFrame {
         });
         getContentPane().add(btneliminarcodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, 440, 50));
 
-        btnMonitor.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btnMonitor.setText("Monitor de novedad");
-        btnMonitor.setFocusPainted(false);
-        btnMonitor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMonitorActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnMonitor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 310, 250, 50));
-
         btnopcionmultiple1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btnopcionmultiple1.setText("Cerrar");
         btnopcionmultiple1.setFocusPainted(false);
@@ -93,7 +72,7 @@ public class Menu extends javax.swing.JFrame {
                 btnopcionmultiple1ActionPerformed(evt);
             }
         });
-        getContentPane().add(btnopcionmultiple1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 430, 280, 50));
+        getContentPane().add(btnopcionmultiple1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 370, 280, 50));
 
         jLabel3.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 0, 51));
@@ -105,7 +84,7 @@ public class Menu extends javax.swing.JFrame {
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 20, 280, 38));
 
         btncapturanom1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        btncapturanom1.setText("Alta codigo");
+        btncapturanom1.setText("Nuevo Codigo");
         btncapturanom1.setBorder(null);
         btncapturanom1.setFocusPainted(false);
         btncapturanom1.addActionListener(new java.awt.event.ActionListener() {
@@ -157,10 +136,6 @@ public class Menu extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btneliminarcodigoActionPerformed
 
-    private void btnMonitorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMonitorActionPerformed
-
-    }//GEN-LAST:event_btnMonitorActionPerformed
-
     private void btnopcionmultiple1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnopcionmultiple1ActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnopcionmultiple1ActionPerformed
@@ -181,10 +156,7 @@ public class Menu extends javax.swing.JFrame {
     private void btneliminarcodigo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarcodigo1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btneliminarcodigo1ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
+ 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -218,7 +190,6 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnMonitor;
     private javax.swing.JButton btncapturanom;
     private javax.swing.JButton btncapturanom1;
     private javax.swing.JButton btneliminarcodigo;
