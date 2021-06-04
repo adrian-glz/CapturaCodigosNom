@@ -1248,16 +1248,13 @@ public class CapturaCodigo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnvolverActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-        String cadena = "https://www.sounds.mx/catalogo?b=";
+        String cadena = "https://www.sounds.mx/producto?sku=";
         String cadena2 = "https://www0.sounds.mx/advanced_search_result.php?keywords=";
-
         if (txt_id.getText().length() > 1) {
             String C = txt_id.getText().replaceAll("[ ]", "");
             try {
                 Desktop.getDesktop().browse(new URI(cadena + C));
                 Desktop.getDesktop().browse(new URI(cadena2 + C));
-
             } catch (URISyntaxException ex) {
               //  System.out.println("error");
             } catch (IOException ex) {
@@ -1266,11 +1263,9 @@ public class CapturaCodigo extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(rootPane, "Capture un codigo valido");
         }
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) {
-
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {

@@ -48,10 +48,12 @@ public class Principal extends javax.swing.JFrame {
         llenarfamilia();
         llenarproveedor();
         llenarmarca();
+        llenarlinea();
         AutoCompleteDecorator.decorate(jcgenero);
         AutoCompleteDecorator.decorate(jcgrupo);
         AutoCompleteDecorator.decorate(jcproveedor);
         AutoCompleteDecorator.decorate(jcmarca);
+        AutoCompleteDecorator.decorate(jclinea);
         GregorianCalendar gg = new GregorianCalendar();
         SimpleDateFormat dd = new SimpleDateFormat("yyyy/MM/dd");
         String fechadisplay = dd.format(gg.getTime());
@@ -133,6 +135,25 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
+     public void llenarlinea() {
+        jclinea.removeAllItems();
+        try {
+            Conexion con = new Conexion();
+            Connection conn = con.getConnection();
+            st = conn.createStatement();
+             jclinea.addItem("--NO APLICA--");
+            rs = st.executeQuery("select * from Lineas order by linea asc");
+            while (rs.next()) {
+                String elemento = rs.getString("linea").trim();
+                jclinea.addItem(elemento);
+            }
+            st.close();
+        } catch (Exception e) {
+         //   System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            e.printStackTrace();
+            return;
+        }
+    }
     public void llenargeneros() {
         jcgenero.removeAllItems();
         try {
@@ -146,12 +167,11 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-       //     System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
-            e.printStackTrace();
+           e.printStackTrace();
             return;
         }
     }
-
+ 
     public void llenarcategories() {
         jcgrupo.removeAllItems();
         try {
@@ -375,6 +395,8 @@ public class Principal extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
+        jclinea = new javax.swing.JComboBox();
+        jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Captura codigo nuevo");
@@ -485,7 +507,7 @@ public class Principal extends javax.swing.JFrame {
                 btngenerarActionPerformed(evt);
             }
         });
-        getContentPane().add(btngenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 310, 280, 50));
+        getContentPane().add(btngenerar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 270, 280, 50));
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel6.setText("Procedencia");
@@ -579,9 +601,9 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jtcategorias);
 
-        jpanelcategorias.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 220, 80));
+        jpanelcategorias.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(5, 5, 210, 80));
 
-        getContentPane().add(jpanelcategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 230, 90));
+        getContentPane().add(jpanelcategorias, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 170, 220, 90));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel9.setText("Proveedor");
@@ -605,7 +627,7 @@ public class Principal extends javax.swing.JFrame {
 
         checknovedad.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         checknovedad.setText("Novedad");
-        getContentPane().add(checknovedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 170, 100, 30));
+        getContentPane().add(checknovedad, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 170, 110, 30));
 
         jcorigen.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jcorigen.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -622,10 +644,18 @@ public class Principal extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, 180, 50));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 180, 50));
 
         jLabel13.setText("   ");
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 380, 470, -1));
+
+        jclinea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jclinea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--NO APLICA--" }));
+        getContentPane().add(jclinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 230, 170, 30));
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel14.setText("Linea(solo cds)");
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(615, 210, 100, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -986,6 +1016,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1000,6 +1031,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox jcfamilia;
     private javax.swing.JComboBox jcgenero;
     private javax.swing.JComboBox jcgrupo;
+    private javax.swing.JComboBox jclinea;
     private javax.swing.JComboBox jcmarca;
     private javax.swing.JComboBox jcorigen;
     private javax.swing.JComboBox jcprocedencia;
