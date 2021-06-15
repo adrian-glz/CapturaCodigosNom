@@ -273,7 +273,6 @@ public class CapturaCodigo extends javax.swing.JFrame {
                 V.setVisible(true);
             }
             break;
-
             case 103: {
                 this.setVisible(false);
                 V103 V = new V103();
@@ -1230,7 +1229,6 @@ public class CapturaCodigo extends javax.swing.JFrame {
             vaciarcampiosvalores();
             limpiarcampos();
         }
-
     }//GEN-LAST:event_txt_idKeyPressed
 
     private void btnlimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlimpiarActionPerformed

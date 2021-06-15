@@ -397,6 +397,7 @@ public class Principal extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jclinea = new javax.swing.JComboBox();
         jLabel14 = new javax.swing.JLabel();
+        btnagregarfamilia1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Captura codigo nuevo");
@@ -572,7 +573,7 @@ public class Principal extends javax.swing.JFrame {
 
         btnagregarfamilia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/123.png"))); // NOI18N
         btnagregarfamilia.setContentAreaFilled(false);
-        getContentPane().add(btnagregarfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(417, 134, 20, 20));
+        getContentPane().add(btnagregarfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 135, 20, 20));
 
         jpanelcategorias.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jpanelcategorias.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -651,11 +652,25 @@ public class Principal extends javax.swing.JFrame {
 
         jclinea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jclinea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--NO APLICA--" }));
+        jclinea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jclineaActionPerformed(evt);
+            }
+        });
         getContentPane().add(jclinea, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 230, 170, 30));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel14.setText("Linea(solo cds)");
         getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(615, 210, 100, -1));
+
+        btnagregarfamilia1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/123.png"))); // NOI18N
+        btnagregarfamilia1.setContentAreaFilled(false);
+        btnagregarfamilia1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnagregarfamilia1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnagregarfamilia1, new org.netbeans.lib.awtextra.AbsoluteConstraints(785, 235, 20, 20));
 
         pack();
         setLocationRelativeTo(null);
@@ -799,6 +814,15 @@ public class Principal extends javax.swing.JFrame {
      this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jclineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jclineaActionPerformed
+
+    }//GEN-LAST:event_jclineaActionPerformed
+
+    private void btnagregarfamilia1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarfamilia1ActionPerformed
+       String linea = jclinea.getSelectedItem().toString().trim();
+     System.out.println("seleccionaste-->"+linea);
+    }//GEN-LAST:event_btnagregarfamilia1ActionPerformed
+
     public void ExisteCodigo() {//comprobar 
 
         ////evento para buscar codigo
@@ -842,6 +866,7 @@ public class Principal extends javax.swing.JFrame {
         String apartado = jcapartado.getSelectedItem().toString().trim();
         String familia = jcfamilia.getSelectedItem().toString().trim();
         String procedencia = jcprocedencia.getSelectedItem().toString().trim();
+        String linea = jclinea.getSelectedItem().toString().trim();
         String proveedor = jcproveedor.getSelectedItem().toString().trim();
         String estatus = jcestatus.getSelectedItem().toString().trim();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SS");
@@ -851,6 +876,12 @@ public class Principal extends javax.swing.JFrame {
         obtenidgrupo();
         obtenidproveedor();
 
+        
+        
+        
+         if (linea.equals("--NO APLICA--")) {
+            linea = "NULL";
+        }  
         //   System.out.println(dtf.format(date));
         if (apartado.equals("--NO APLICA--")) {
             apartado = "N";
@@ -1007,6 +1038,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnagregarfamilia;
+    private javax.swing.JButton btnagregarfamilia1;
     private javax.swing.JButton btnayuda;
     private javax.swing.JButton btngenerar;
     private javax.swing.JCheckBox checknovedad;
