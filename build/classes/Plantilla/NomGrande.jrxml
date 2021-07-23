@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" columnCount="2" printOrder="Horizontal" pageWidth="612" pageHeight="792" columnWidth="278" columnSpacing="14" leftMargin="28" rightMargin="14" topMargin="14" bottomMargin="14" uuid="b9475458-cd52-4bae-bd99-8b124ca04a88">
+	<property name="ireport.zoom" value="6.0"/>
+	<property name="ireport.x" value="858"/>
+	<property name="ireport.y" value="720"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="3c428d9b-fb5c-432c-9930-e7c3f602be81"/>
+	<queryString>
+		<![CDATA[select A.* ,(select round((isnull(( (select round((isnull((nullif (case when nacional=0 then Precioventa * 
+(select tipocambioventa from cml.dbo.infor) else precioventa end,0)/(1+(select iva from cml.dbo.infor))),0) - 
+(case when nacional=0 then Costouni * (select tipocambioventa from cml.dbo.infor) else Costouni end)),2)
+from noms1web n1w
+where codigo=noms1web.codigo)/ (nullif (case when nacional=0 then Precioventa * 
+(select tipocambioventa from cml.dbo.infor) else precioventa end,0)/(1+((select iva from cml.dbo.infor))))),0)*100),2)
+from noms1web
+where codigo=a.codigo) as margen 
+ from 
+(select CODIGO,CODIGO2,DESCRIPCION,PRECIOVENTA,PRECIOOFERTA,CAMPO1,CAMPO2,CAMPO3,CAMPO4,CAMPO5,(select round((isnull((nullif (case when nacional=0 then Precioventa * 
+(select tipocambioventa from cml.dbo.infor) else precioventa end,0)/(1+(select iva from cml.dbo.infor))),0) - 
+(case when nacional=0 then Costouni * (select tipocambioventa from cml.dbo.infor) else Costouni end)),2)
+from noms1web n1w
+where codigo=noms1web.codigo) as utilidad
+ from noms1web
+WHERE CODIGO IN('189114BK            ','55H6F            ','25877               ','2LB19A              ') )A
+
+]]>
+	</queryString>
+	<field name="CODIGO" class="java.lang.String"/>
+	<field name="CODIGO2" class="java.lang.String"/>
+	<field name="DESCRIPCION" class="java.lang.String"/>
+	<field name="PRECIOVENTA" class="java.lang.Double"/>
+	<field name="PRECIOOFERTA" class="java.lang.Double"/>
+	<field name="CAMPO1" class="java.lang.String"/>
+	<field name="CAMPO2" class="java.lang.String"/>
+	<field name="CAMPO3" class="java.lang.String"/>
+	<field name="CAMPO4" class="java.lang.String"/>
+	<field name="CAMPO5" class="java.lang.String"/>
+	<field name="utilidad" class="java.lang.Double"/>
+	<field name="margen" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="14" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="265" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="276" height="265" uuid="40c4b30a-7899-4719-826c-09493f162ce9"/>
+				<imageExpression><![CDATA["C:\\Users\\agonzalez\\Documents\\GitHub\\CapturaCodigosNom\\src\\recursos\\SQUARED.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="22" y="84" width="76" height="20" uuid="7bd90127-49f0-48de-826e-ca6dd90019bb"/>
+				<textElement>
+					<font fontName="Poppins Medium" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CODIGO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="136" y="215" width="125" height="50" uuid="7e6f9e5c-2952-41bd-a7a5-b819371c15f1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Poppins" size="23" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["$"+$F{PRECIOVENTA}+"0"]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement stretchType="RelativeToBandHeight" x="22" y="164" width="144" height="51" uuid="694a82b3-b09f-4cdb-a9cd-1a8206ebaa53"/>
+				<jr:Code128 xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" moduleWidth="2.0" textPosition="bottom">
+					<jr:codeExpression><![CDATA[$F{CODIGO2}.replaceAll( " ","")]]></jr:codeExpression>
+				</jr:Code128>
+			</componentElement>
+			<textField>
+				<reportElement x="22" y="65" width="226" height="19" uuid="69e3eecd-7c4c-4417-9059-adcf427c10b8"/>
+				<textElement>
+					<font fontName="Poppins" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DESCRIPCION}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="205" y="16" width="43" height="44" uuid="76256d4e-02ed-4833-aaa9-5e591183874d"/>
+				<imageExpression><![CDATA["C:\\Users\\agonzalez\\Documents\\GitHub\\CapturaCodigosNom\\src\\recursos\\logo.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="22" y="104" width="226" height="60" uuid="ef4f5dea-2bc4-4de2-af49-ae2ecccc9f9f"/>
+				<textElement>
+					<font fontName="Poppins Medium" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CAMPO1}.trim()+", "+$F{CAMPO2}.trim()+", "+$F{CAMPO3}.trim()+", "+$F{CAMPO4}.trim()+", "+$F{CAMPO5}.trim()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="195" y="204" width="33" height="10" uuid="dff36da6-93bf-471b-971f-71f318b089a8"/>
+				<textElement>
+					<font fontName="Open Sans" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[ $F{utilidad}+" / "+$F{margen}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="195" y="196" width="33" height="10" uuid="da46a0f4-f3de-48e8-ba3e-ce3336f96dcf"/>
+				<textElement>
+					<font fontName="Open Sans" size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Clave UM"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
