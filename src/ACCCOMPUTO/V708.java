@@ -87,10 +87,10 @@ public final class V708 extends javax.swing.JFrame {
 
    
    
-     public void llenarvelocidad() {
+    public void llenarvelocidad() {
         cbvelocidad.removeAllItems();
         try {
-             Conexion con = new Conexion();
+            Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("use NOMS;");
@@ -109,10 +109,11 @@ public final class V708 extends javax.swing.JFrame {
             return;
         }
     }
-     public void llenartipo() {
+
+    public void llenartipo() {
         cbtipo.removeAllItems();
         try {
-                Conexion con = new Conexion();
+            Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("use NOMS;");
@@ -131,10 +132,11 @@ public final class V708 extends javax.swing.JFrame {
             return;
         }
     }
+
     public void llenarconexion() {
         cbconexion.removeAllItems();
         try {
-             Conexion con = new Conexion();
+            Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("use NOMS;");
@@ -153,7 +155,7 @@ public final class V708 extends javax.swing.JFrame {
             return;
         }
     }
-    
+
     public void comparacionnacional() {
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SS");

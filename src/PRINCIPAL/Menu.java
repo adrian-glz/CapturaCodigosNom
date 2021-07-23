@@ -22,6 +22,7 @@ public class Menu extends javax.swing.JFrame {
         btncapturanom1 = new javax.swing.JButton();
         btnvisualiza = new javax.swing.JButton();
         btneliminarcodigo1 = new javax.swing.JButton();
+        btnnom = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Bienvenido");
@@ -72,7 +73,7 @@ public class Menu extends javax.swing.JFrame {
                 btnopcionmultiple1ActionPerformed(evt);
             }
         });
-        getContentPane().add(btnopcionmultiple1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 370, 280, 50));
+        getContentPane().add(btnopcionmultiple1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 410, 280, 50));
 
         jLabel3.setFont(new java.awt.Font("Cambria", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 0, 51));
@@ -113,6 +114,15 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btneliminarcodigo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 250, 440, 50));
+
+        btnnom.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnnom.setText("Imprimir nom");
+        btnnom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnnomActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnnom, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 370, 160, 30));
 
         pack();
         setLocationRelativeTo(null);
@@ -156,6 +166,11 @@ public class Menu extends javax.swing.JFrame {
     private void btneliminarcodigo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarcodigo1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btneliminarcodigo1ActionPerformed
+
+    private void btnnomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnomActionPerformed
+       nomGrande n= new nomGrande();
+       n.setVisible(true);
+    }//GEN-LAST:event_btnnomActionPerformed
  
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -194,6 +209,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JButton btncapturanom1;
     private javax.swing.JButton btneliminarcodigo;
     private javax.swing.JButton btneliminarcodigo1;
+    private javax.swing.JButton btnnom;
     private javax.swing.JButton btnopcionmultiple;
     private javax.swing.JButton btnopcionmultiple1;
     private javax.swing.JButton btnvisualiza;

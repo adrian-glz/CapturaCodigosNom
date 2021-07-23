@@ -35,20 +35,19 @@ public class NuevaOpcion extends javax.swing.JFrame {
     PreparedStatement ps = null;
     ResultSet rs;
     DefaultTableModel md;
-   
+
     public NuevaOpcion() {
 //       
         initComponents();
-         setIconImage(new ImageIcon(getClass().getResource("/recursos/logo.png")).getImage());
+        setIconImage(new ImageIcon(getClass().getResource("/recursos/logo.png")).getImage());
         txt_nuevo.requestFocusInWindow();
-         
-         
-         llenarcombobox();
+
+        llenarcombobox();
         btnagregar.setEnabled(false);
 
     }
-    
-    public void eliminarelemento(){
+
+    public void eliminarelemento() {
         String ES2 = cbtablas.getSelectedItem().toString();
         int filaseleccionada = tbl_elementos.getSelectedRow();
         //    System.out.println("itemcodigo>>>>>"+filaseleccionada);
@@ -77,7 +76,7 @@ public class NuevaOpcion extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "¡Se elimino: " + velemento);
                     st.close();
                     llenartabla();
-               txt_nuevo.setText("");
+                    txt_nuevo.setText("");
                 }
             } catch (HeadlessException | SQLException ex) {
                 JOptionPane.showMessageDialog(rootPane, "Error en la base de datos");
@@ -93,7 +92,7 @@ public class NuevaOpcion extends javax.swing.JFrame {
         String ES2 = cbtablas.getSelectedItem().toString();
         String TE = txt_nuevo.getText().toUpperCase();
         try {
-          Conexion con = new Conexion();
+            Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
@@ -128,7 +127,7 @@ public class NuevaOpcion extends javax.swing.JFrame {
         ResultSet rs;
         cbtablas.removeAllItems();
         try {
-      Conexion con = new Conexion();
+            Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("use NOMS;");
@@ -157,7 +156,7 @@ public class NuevaOpcion extends javax.swing.JFrame {
 
         try {
 
-              Conexion con = new Conexion();
+            Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
             st.executeUpdate("USE NOMS;");
@@ -176,7 +175,6 @@ public class NuevaOpcion extends javax.swing.JFrame {
         }
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -220,6 +218,7 @@ public class NuevaOpcion extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setText("Elige la tabla donde se va a insertar: ");
 
+        cbtablas.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cbtablas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbtablasActionPerformed(evt);
@@ -361,7 +360,7 @@ public class NuevaOpcion extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_nuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)

@@ -31,7 +31,7 @@ public class Principal extends javax.swing.JFrame {
     PreparedStatement ps = null;
     TableModel md;
     ResultSet rs;
-    String generoid, grupoid, proveedorid, marcaid, origenid,novedad;
+    String generoid, grupoid, proveedorid, marcaid, origenid, novedad;
 
     public Principal() {
 
@@ -85,7 +85,7 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-        //    System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            //    System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -106,7 +106,7 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-          //  System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            //  System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -129,19 +129,19 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-         //   System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            //   System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
     }
 
-     public void llenarlinea() {
+    public void llenarlinea() {
         jclinea.removeAllItems();
         try {
             Conexion con = new Conexion();
             Connection conn = con.getConnection();
             st = conn.createStatement();
-             jclinea.addItem("--NO APLICA--");
+            jclinea.addItem("--NO APLICA--");
             rs = st.executeQuery("select * from Lineas order by linea asc");
             while (rs.next()) {
                 String elemento = rs.getString("linea").trim();
@@ -149,11 +149,12 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-         //   System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            //   System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
     }
+
     public void llenargeneros() {
         jcgenero.removeAllItems();
         try {
@@ -167,11 +168,11 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
             return;
         }
     }
- 
+
     public void llenarcategories() {
         jcgrupo.removeAllItems();
         try {
@@ -187,7 +188,7 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-          //  System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            //  System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -208,7 +209,7 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-         //   System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            //   System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -229,7 +230,7 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-        //    System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            //    System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -251,7 +252,7 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-           // System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            // System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -269,7 +270,7 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-         //   System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            //   System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -287,7 +288,7 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-        //    System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            //    System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -305,7 +306,7 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-           // System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            // System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -323,7 +324,7 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-       //     System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            //     System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -341,7 +342,7 @@ public class Principal extends javax.swing.JFrame {
             }
             st.close();
         } catch (Exception e) {
-           // System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
+            // System.out.println("ERROR: failed to load HSQLDB JDBC driver.");
             e.printStackTrace();
             return;
         }
@@ -394,7 +395,6 @@ public class Principal extends javax.swing.JFrame {
         jcorigen = new javax.swing.JComboBox();
         jLabel12 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
         jclinea = new javax.swing.JComboBox();
         jLabel14 = new javax.swing.JLabel();
         btnagregarfamilia1 = new javax.swing.JButton();
@@ -487,7 +487,7 @@ public class Principal extends javax.swing.JFrame {
                 btnayudaActionPerformed(evt);
             }
         });
-        getContentPane().add(btnayuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 310, 70, 50));
+        getContentPane().add(btnayuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 310, 70, 50));
 
         txtcodigosounds.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtcodigosounds.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -554,7 +554,7 @@ public class Principal extends javax.swing.JFrame {
                 txtPrecioventaKeyTyped(evt);
             }
         });
-        jpanelcostos.add(txtPrecioventa, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 160, 30));
+        jpanelcostos.add(txtPrecioventa, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 220, 30));
 
         txtCosto.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         txtCosto.addActionListener(new java.awt.event.ActionListener() {
@@ -567,12 +567,17 @@ public class Principal extends javax.swing.JFrame {
                 txtCostoKeyTyped(evt);
             }
         });
-        jpanelcostos.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 160, 30));
+        jpanelcostos.add(txtCosto, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 220, 30));
 
-        getContentPane().add(jpanelcostos, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 170, 260, 90));
+        getContentPane().add(jpanelcostos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 360, 90));
 
         btnagregarfamilia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/123.png"))); // NOI18N
         btnagregarfamilia.setContentAreaFilled(false);
+        btnagregarfamilia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnagregarfamiliaActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnagregarfamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(415, 135, 20, 20));
 
         jpanelcategorias.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -645,10 +650,7 @@ public class Principal extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 180, 50));
-
-        jLabel13.setText("   ");
-        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 380, 470, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 200, 50));
 
         jclinea.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jclinea.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "--NO APLICA--" }));
@@ -738,7 +740,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void btngenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btngenerarActionPerformed
         ///variables para uso en insert sql
-       // System.out.println(">>>" + txtCosto.getText());
+        // System.out.println(">>>" + txtCosto.getText());
         if (txtcodigosounds.getText().equals("")
                 || txtcodigoproveedor.getText().equals("")
                 || txtcodigobarras.getText().equals("")
@@ -762,7 +764,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecioventaKeyTyped
 
     private void txtCostoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCostoKeyTyped
-        if (txtCosto.getText().length() >=0) {
+        if (txtCosto.getText().length() >= 0) {
 
         } else {
             btngenerar.setEnabled(false);
@@ -809,9 +811,9 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jtcategoriasPropertyChange
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     Menu m = new Menu();
-     m.setVisible(true);
-     this.dispose();
+        Menu m = new Menu();
+        m.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jclineaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jclineaActionPerformed
@@ -819,9 +821,15 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jclineaActionPerformed
 
     private void btnagregarfamilia1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarfamilia1ActionPerformed
-       String linea = jclinea.getSelectedItem().toString().trim();
-     System.out.println("seleccionaste-->"+linea);
+        String linea = jclinea.getSelectedItem().toString().trim();
+        System.out.println("seleccionaste-->" + linea);
     }//GEN-LAST:event_btnagregarfamilia1ActionPerformed
+
+    private void btnagregarfamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarfamiliaActionPerformed
+        Agregafamilia a = new Agregafamilia();
+        a.setVisible(true);
+
+    }//GEN-LAST:event_btnagregarfamiliaActionPerformed
 
     public void ExisteCodigo() {//comprobar 
 
@@ -876,12 +884,9 @@ public class Principal extends javax.swing.JFrame {
         obtenidgrupo();
         obtenidproveedor();
 
-        
-        
-        
-         if (linea.equals("--NO APLICA--")) {
+        if (linea.equals("--NO APLICA--")) {
             linea = "NULL";
-        }  
+        }
         //   System.out.println(dtf.format(date));
         if (apartado.equals("--NO APLICA--")) {
             apartado = "N";
@@ -979,7 +984,7 @@ public class Principal extends javax.swing.JFrame {
                 }
                 //  System.out.println("codigoformateoad"+vcodigoformateado);
                 int vcodigoparseado = Integer.parseInt(vcodigoformateado);
-             //   System.out.println("codigoparseado " + vcodigoparseado);
+                //   System.out.println("codigoparseado " + vcodigoparseado);
                 pse = conn.prepareStatement("insert into Codigos_to_categories (codigo,categories_id) "
                         + "VALUES('" + codigo.toUpperCase() + "','" + vcodigoparseado + "')");
                 n = pse.executeUpdate();
@@ -997,7 +1002,7 @@ public class Principal extends javax.swing.JFrame {
             c.colorearblanco();
             c.vaciarcampiosvalores();
             c.recuperarcampos();
-           // System.out.println("llego sin errores");
+            // System.out.println("llego sin errores");
         } else {
             JOptionPane.showMessageDialog(null, "¡ufff! ha ocurrido un error");
         }
@@ -1047,7 +1052,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -59,7 +59,7 @@ public final class V126 extends javax.swing.JFrame {
 
         lblcodigo.setText(codigo);
         llenarcolor();
-        llenarnivel();
+        llenarnivel666();
         llenarlistaincluye();
         llenarlistaincluyeentradas();
     }
@@ -85,7 +85,7 @@ public final class V126 extends javax.swing.JFrame {
         }
     }
  
-    public void llenarnivel() {
+    public void llenarnivel666() {
         cbnivel.removeAllItems();
         try {
              Conexion con = new Conexion();
@@ -598,7 +598,7 @@ public final class V126 extends javax.swing.JFrame {
 
     private void btnrefrescarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrefrescarActionPerformed
        llenarcolor();
-        llenarnivel();
+        llenarnivel666();
         llenarlistaincluye();
         llenarlistaincluyeentradas();
     }//GEN-LAST:event_btnrefrescarActionPerformed

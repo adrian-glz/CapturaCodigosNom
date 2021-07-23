@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package PRINCIPAL;
 
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author agonzalez
- */
 public class Agregafamilia extends javax.swing.JFrame {
  
     public Agregafamilia() {
@@ -27,28 +18,33 @@ public class Agregafamilia extends javax.swing.JFrame {
         btnagregafamilia = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Añadir familia");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Nueva familia:");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 41, 90, 30));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 140, 40));
 
         txtnuevafamilia.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtnuevafamiliaKeyTyped(evt);
             }
         });
-        getContentPane().add(txtnuevafamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 260, 30));
+        getContentPane().add(txtnuevafamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 20, 200, 40));
 
-        btnagregafamilia.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        btnagregafamilia.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         btnagregafamilia.setText("agregar");
-        getContentPane().add(btnagregafamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 180, 30));
+        btnagregafamilia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnagregafamiliaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnagregafamilia, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, 200, 40));
 
         jLabel2.setText("  ");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 160, -1, -1));
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 130, 120, 30));
 
         pack();
         setLocationRelativeTo(null);
@@ -61,6 +57,11 @@ public class Agregafamilia extends javax.swing.JFrame {
             btnagregafamilia.setEnabled(false);
         }
     }//GEN-LAST:event_txtnuevafamiliaKeyTyped
+
+    private void btnagregafamiliaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregafamiliaActionPerformed
+       //  jcmarca.addItem("xd");
+         //jcmarca.addItem("xd");
+    }//GEN-LAST:event_btnagregafamiliaActionPerformed
 
     /**
      * @param args the command line arguments
